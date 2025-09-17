@@ -294,6 +294,7 @@ body {
 }
 
 .alert-red, .alert-green {
+    display: flex;
     justify-content: center;
     align-items: center;
     column-gap: 10px;
@@ -305,18 +306,29 @@ body {
     margin-left: auto;
     bottom: 72px;
     position: sticky;
+
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+    transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+}
+
+.alert-red.visible, .alert-green.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
 }
 
 .alert-red {
     width: fit-content;
     background: #f23d5b;
-    display: none;
+
 }
 
 .alert-green {
     width: fit-content;
     background: #47b27d;
-    display: none;
+
 }
 
 .alert-green-span, .alert-red-span {

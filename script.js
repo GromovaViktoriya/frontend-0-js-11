@@ -80,16 +80,16 @@ const view = {
                 input.value = ''
                 textarea.value = ''
 
-                alertGreen.textContent = 'Заметка добавлена!'
-                alertGreen.style.display = 'flex'
+                document.querySelector('.alert-green-span').textContent = 'Заметка добавлена!'
+                alertGreen.classList.add('visible');
                 setTimeout(() => {
-                    alertGreen.style.display = 'none'
+                    alertGreen.classList.remove('visible');
                 }, 3000)
 
             } else if (input.value.length > 50) {
-                alertRed.style.display = 'flex'
+                alertRed.classList.add('visible');
                 setTimeout(() => {
-                    alertRed.style.display = 'none'
+                    alertRed.classList.remove('visible');
                 }, 3000)
             }
         })
@@ -100,10 +100,10 @@ const view = {
                 controller.toggleFavorite(noteId)
             } else if (event.target.closest('.icon-bucket')) {
                 controller.deleteNote(noteId)
-                alertGreen.textContent = 'Заметка удалена'
-                alertGreen.style.display = 'flex'
+                document.querySelector('.alert-green-span').textContent = 'Заметка удалена'
+                alertGreen.classList.add('visible');
                 setTimeout(() => {
-                    alertGreen.style.display = 'none'
+                    alertGreen.classList.remove('visible');
                 }, 3000)
                 view.renderCounter()
             }
