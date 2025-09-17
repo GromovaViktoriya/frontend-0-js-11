@@ -8,7 +8,7 @@ const model = {
             isFavorite: false,
             color
         }
-        this.notes.push(newNote)
+        this.notes.unshift(newNote)
 
     }
 }
@@ -39,25 +39,42 @@ const view = {
 
         form.addEventListener('submit', (event) => {
             event.preventDefault()
-            controller.addNote(input.value, textarea.value, selectedColor)
-            input.value = ''
-            textarea.value = ''
+            if (input.value.length <= 50 && input.value.trim() !== '' && textarea.value.trim() !== '') {
+                controller.addNote(input.value, textarea.value, selectedColor)
+                input.value = ''
+                textarea.value = ''
+
+                const alertGreen = document.querySelector('.alert-green')
+                alertGreen.style.display = 'flex'
+                setTimeout(() => {
+                    alertGreen.style.display = 'none'
+                }, 3000)
+
+            } else if (input.value.length > 50) {
+                const alertRed = document.querySelector('.alert-red')
+                alertRed.style.display = 'flex'
+                setTimeout(() => {
+                    alertRed.style.display = 'none'
+                }, 3000)
+            }
         })
     },
 
     renderNotes(notes) {
         const notesContainer = document.querySelector('.cards-wrapper')
-        const noCardsMessage = document.querySelector('.no-cards-message')
+        const favoritesContainer = document.querySelector('.favorites-span-wrapper')
+
 
         if (notes.length === 0) {
-            noCardsMessage.style.display = 'block';
+            notesContainer.innerHTML = `
+            <div class="no-cards-message">
+                У вас нет еще ни одной заметки <br>
+                Заполните поля выше и создайте свою первую заметку!
+            </div>`
         } else {
-            notesContainer.innerHTML = ''
-            noCardsMessage.style.display = 'none';
-        }
-
-        notes.forEach(note => {
-            notesContainer.innerHTML += `
+            notesContainer.innerHTML = '';
+            notes.forEach(note => {
+                notesContainer.innerHTML  += `
             <div class="card" id="${note.id}">
                 <div class="card-title-wrapper ${note.color}">
                     <h2 class="card-title">${note.title}</h2>
@@ -83,19 +100,17 @@ const view = {
                     </div>
                 </div>
                 <div class="card-description">${note.description}</div>
-            </div>
-            `
-        })
-
+            </div>`
+            })
+            favoritesContainer.style.display = 'flex'
+        }
     }
 }
 
 const controller = {
     addNote(title, description, color) {
-        if ((title && title.trim() !== '') && (description && description.trim() !== '')) {
-            model.addNote(title, description, color);
-            view.renderNotes(model.notes)
-        }
+        model.addNote(title, description, color);
+        view.renderNotes(model.notes)
     },
 }
 

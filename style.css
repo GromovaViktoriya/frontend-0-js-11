@@ -208,7 +208,11 @@ body {
 }
 
 .icon-checkbox {
-    display: none;
+    display: block;
+}
+
+.icon-checkbox-checked{
+    display: block;
 }
 
 .favorites-span {
@@ -237,6 +241,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    column-gap: 12px;
     border-top-right-radius: 10px;
     border-top-left-radius: 10px;
     margin-bottom: 12px;
@@ -247,6 +252,8 @@ body {
     font-size: 16px;
     line-height: 1.5;
     color: #292515;
+    white-space: normal;
+    word-break: break-word;
 }
 
 .card-icon-wrapper {
@@ -261,11 +268,14 @@ body {
 }
 
 .card-description {
+    max-width: 344px;
     padding: 12px;
     font-weight: 400;
     font-size: 14px;
     line-height: 1.71429;
     color: #000;
+    white-space: normal;
+    word-break: break-word;
 }
 
 .favorite {
