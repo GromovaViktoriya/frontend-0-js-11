@@ -33,6 +33,10 @@ const model = {
         return this.notes.filter(note => {
             return note.isFavorite
         })
+    },
+
+    countTasks() {
+        return this.notes.length;
     }
 }
 
@@ -76,6 +80,7 @@ const view = {
                 input.value = ''
                 textarea.value = ''
 
+                alertGreen.textContent = 'Заметка добавлена!'
                 alertGreen.style.display = 'flex'
                 setTimeout(() => {
                     alertGreen.style.display = 'none'
@@ -95,6 +100,12 @@ const view = {
                 controller.toggleFavorite(noteId)
             } else if (event.target.closest('.icon-bucket')) {
                 controller.deleteNote(noteId)
+                alertGreen.textContent = 'Заметка удалена'
+                alertGreen.style.display = 'flex'
+                setTimeout(() => {
+                    alertGreen.style.display = 'none'
+                }, 3000)
+                view.renderCounter()
             }
         })
 
@@ -153,8 +164,15 @@ const view = {
             </div>`
             })
             favoritesContainer.style.display = 'flex'
+            view.renderCounter()
         }
+    },
+
+    renderCounter() {
+        const counterSpan = document.querySelector('.header-notes-number');
+        counterSpan.textContent = `${controller.countTasks()}`;
     }
+
 }
 
 const controller = {
@@ -171,8 +189,10 @@ const controller = {
     filterFavorites() {
         const favoriteNotes = model.filterFavorites();
         view.renderNotes(favoriteNotes)
+    },
+    countTasks() {
+        return model.countTasks();
     }
-
 }
 
 function init() {
