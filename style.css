@@ -192,7 +192,7 @@ body {
 }
 
 .favorites-span-wrapper {
-    display: none;
+    display: flex;
     flex-direction: row;
     column-gap: 8px;
     justify-content: flex-end;
@@ -207,12 +207,12 @@ body {
     height: 16px;
 }
 
-.icon-checkbox {
+.favorites-span-wrapper .icon-checkbox {
     display: block;
 }
 
-.icon-checkbox-checked{
-    display: block;
+.favorites-span-wrapper .icon-checkbox-checked {
+    display: none;
 }
 
 .favorites-span {
@@ -324,4 +324,11 @@ body {
     font-size: 14px;
     line-height: 1.71429;
     color: #fff;
+}
+
+.favorites-span-wrapper.filter-active .icon-checkbox-checked {
+    display: block;
+}
+.favorites-span-wrapper.filter-active .icon-checkbox {
+    display: none;
 }

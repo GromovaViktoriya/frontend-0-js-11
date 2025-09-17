@@ -6,10 +6,33 @@ const model = {
             description,
             id: new Date().getTime(),
             isFavorite: false,
-            color
+            color,
         }
         this.notes.unshift(newNote)
+        view.renderNotes(this.notes)
+    },
 
+    toggleFavorite(noteId) {
+        this.notes = this.notes.map(note => {
+            if (note.id === noteId) {
+                note.isFavorite = !note.isFavorite
+            }
+            return note
+        })
+        view.renderNotes(this.notes)
+    },
+
+    deleteNote(noteId) {
+        this.notes = this.notes.filter(note => {
+            return note.id !== noteId
+        })
+        view.renderNotes(this.notes)
+    },
+
+    filterFavorites() {
+        return this.notes.filter(note => {
+            return note.isFavorite
+        })
     }
 }
 
@@ -25,6 +48,15 @@ const view = {
         const radioButtons = document.querySelectorAll('.radio')
         let firstCircle = document.querySelector('.circle')
         let selectedColor = firstCircle.classList[1]
+
+        const notesContainer = document.querySelector('.cards-wrapper')
+        const favoritesCheckbox = document.querySelector('.favorites-span-wrapper')
+
+        const alertGreen = document.querySelector('.alert-green')
+        const alertRed = document.querySelector('.alert-red')
+
+        let isFilterActive = false
+
 
         colors.addEventListener('click', (event) => {
             if (event.target.classList.contains('circle')) {
@@ -44,18 +76,36 @@ const view = {
                 input.value = ''
                 textarea.value = ''
 
-                const alertGreen = document.querySelector('.alert-green')
                 alertGreen.style.display = 'flex'
                 setTimeout(() => {
                     alertGreen.style.display = 'none'
                 }, 3000)
 
             } else if (input.value.length > 50) {
-                const alertRed = document.querySelector('.alert-red')
                 alertRed.style.display = 'flex'
                 setTimeout(() => {
                     alertRed.style.display = 'none'
                 }, 3000)
+            }
+        })
+
+        notesContainer.addEventListener('click', (event) => {
+            const noteId = +(event.target.closest('.card').id)
+            if (event.target.classList.contains('icon-heart')) {
+                controller.toggleFavorite(noteId)
+            } else if (event.target.classList.contains('icon-bucket')) {
+                controller.deleteNote(noteId)
+            }
+        })
+
+        favoritesCheckbox.addEventListener('click', (event) => {
+            favoritesCheckbox.classList.toggle('filter-active');
+            isFilterActive = !isFilterActive;
+
+            if (isFilterActive) {
+                controller.filterFavorites()
+            } else {
+                view.renderNotes(model.notes)
             }
         })
     },
@@ -74,7 +124,7 @@ const view = {
         } else {
             notesContainer.innerHTML = '';
             notes.forEach(note => {
-                notesContainer.innerHTML  += `
+                notesContainer.innerHTML += `
             <div class="card" id="${note.id}">
                 <div class="card-title-wrapper ${note.color}">
                     <h2 class="card-title">${note.title}</h2>
@@ -110,8 +160,19 @@ const view = {
 const controller = {
     addNote(title, description, color) {
         model.addNote(title, description, color);
-        view.renderNotes(model.notes)
+
     },
+    toggleFavorite(noteId) {
+        model.toggleFavorite(noteId)
+    },
+    deleteNote(noteId) {
+        model.deleteNote(noteId)
+    },
+    filterFavorites() {
+        const favoriteNotes = model.filterFavorites();
+        view.renderNotes(favoriteNotes)
+    }
+
 }
 
 function init() {
