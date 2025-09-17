@@ -91,14 +91,14 @@ const view = {
 
         notesContainer.addEventListener('click', (event) => {
             const noteId = +(event.target.closest('.card').id)
-            if (event.target.classList.contains('icon-heart')) {
+            if (event.target.closest('.icon-heart')) {
                 controller.toggleFavorite(noteId)
-            } else if (event.target.classList.contains('icon-bucket')) {
+            } else if (event.target.closest('.icon-bucket')) {
                 controller.deleteNote(noteId)
             }
         })
 
-        favoritesCheckbox.addEventListener('click', (event) => {
+        favoritesCheckbox.addEventListener('click', () => {
             favoritesCheckbox.classList.toggle('filter-active');
             isFilterActive = !isFilterActive;
 
