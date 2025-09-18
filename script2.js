@@ -21,14 +21,14 @@ const model = {
             }
             return note
         })
-        view.renderNotes(this.notes)
+        //отрисовка через контроллер после проверки на фильтр
     },
     //фильтрует массив, кроме выбранной по id заметки
     deleteNote(noteId) {
         this.notes = this.notes.filter(note => {
             return note.id !== noteId
         })
-        view.renderNotes(this.notes)
+        //отрисовка через контроллер после проверки на фильтр
     },
     //фильтрует массив с заметками со свойством isFavorite: true
     filterFavorites() {
@@ -212,19 +212,11 @@ const controller = {
     },
     toggleFavorite(noteId) {
         model.toggleFavorite(noteId)
+        this.refreshView()
     },
     deleteNote(noteId) {
         model.deleteNote(noteId)
-        const favoriteNotes = model.filterFavorites();
-        //проверка на включенный фильтр избранных заметок для перерисовки массива избранных
-        //заметок в случае их удаления при вкл фильтре
-        view.isFilterActive ? view.renderNotes(favoriteNotes) : view.renderNotes(model.notes)
-        //если удалить все избранные заметки из массива избранных заметок, то перерисовываем общий массив карточек
-        // и переключаем фильтр на выкл
-        if (model.filterFavorites().length === 0) {
-            view.isFilterActive = false;
-            view.renderNotes(model.notes)
-        }
+        this.refreshView()
     },
     filterFavorites() {
         //сохраняет полученный в модели результат (отфильтрованный массив заметок) в переменную
@@ -235,6 +227,26 @@ const controller = {
     //возвращает полученный в модели результат
     countTasks() {
         return model.countTasks()
+    },
+    //отдельный метод контроллера для toggle и delete при вкл фильтре
+    refreshView() {
+        if (view.isFilterActive) {
+            const favoriteNotes = model.filterFavorites();
+            const favoritesContainer = document.querySelector('.favorites-span-wrapper')
+            //если удалить все избранные заметки из массива избранных заметок, то перерисовываем общий массив карточек
+            // и переключаем фильтр на выкл
+            if (model.filterFavorites().length === 0) {
+                view.isFilterActive = false;
+                favoritesContainer.classList.remove('filter-active');
+                view.renderNotes(model.notes)
+            } else {
+                //если массив избранных заметок не пуст - обновляем отрисовку массива избранных карточек
+                view.renderNotes(favoriteNotes);
+            }
+        } else {
+            //если фильтр выключен, отрисовать основной массив
+            view.renderNotes(model.notes);
+        }
     }
 }
 
