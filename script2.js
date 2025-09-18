@@ -212,10 +212,12 @@ const controller = {
     },
     toggleFavorite(noteId) {
         model.toggleFavorite(noteId)
+        //отрисовка с проверкой фильтра
         this.refreshView()
     },
     deleteNote(noteId) {
         model.deleteNote(noteId)
+        //отрисовка с проверкой фильтра
         this.refreshView()
     },
     filterFavorites() {
