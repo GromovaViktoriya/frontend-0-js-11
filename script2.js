@@ -233,14 +233,14 @@ const controller = {
         if (view.isFilterActive) {
             const favoriteNotes = model.filterFavorites();
             const favoritesContainer = document.querySelector('.favorites-span-wrapper')
-            //если удалить все избранные заметки из массива избранных заметок, то перерисовываем общий массив карточек
-            // и переключаем фильтр на выкл
+            //если удалить все избранные заметки из массива избранных заметок, то нужно перерисовать общий массив
+            // карточек и переключить фильтр на выкл
             if (model.filterFavorites().length === 0) {
                 view.isFilterActive = false;
                 favoritesContainer.classList.remove('filter-active');
                 view.renderNotes(model.notes)
             } else {
-                //если массив избранных заметок не пуст - обновляем отрисовку массива избранных карточек
+                //если массив избранных заметок не пуст - обновить отрисовку массива избранных карточек
                 view.renderNotes(favoriteNotes);
             }
         } else {
