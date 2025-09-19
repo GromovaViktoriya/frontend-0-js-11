@@ -74,6 +74,7 @@ body {
 }
 
 .text-wrap {
+    flex-grow: 3.66; /*848px*/
     display: flex;
     flex-direction: column;
 }
@@ -98,12 +99,11 @@ body {
 }
 
 .input {
-    width: 344px;
+    max-width: 344px;
     height: 36px;
 }
 
 .textarea {
-    width: 848px;
     height: 84px;
     resize: none;
 
@@ -341,6 +341,73 @@ body {
 .favorites-span-wrapper.filter-active .icon-checkbox-checked {
     display: block;
 }
+
 .favorites-span-wrapper.filter-active .icon-checkbox {
     display: none;
+}
+
+@media screen and (max-width: 1279px) {
+.card{
+    flex-grow: 1;
+}
+}
+@media screen and (max-width: 1024px) {
+    .card{
+        width: 300px;
+    }
+}
+
+@media screen and (max-width: 776px) {
+    .container {
+        padding: 0 30px;
+    }
+
+    .header-container {
+        padding: 18px 30px;
+    }
+    .textarea-wrapper {
+        flex-direction: column;
+        row-gap: 12px;
+    }
+}
+
+@media screen and (max-width: 684px) {
+    .card {
+        width: 285px;
+    }
+}
+
+@media screen and (max-width: 565px) {
+    .header-notes-svg {
+        margin-right: 7px;
+    }
+
+    .form {
+        padding: 12px;
+    }
+
+    .container {
+        padding: 0 15px;
+    }
+
+    .header-container {
+        padding: 18px 15px;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    .header-notes-svg {
+        display: none;
+    }
+    .input, .textarea {
+        font-size: 12px;
+    }
+
+    .input::placeholder, .textarea::placeholder {
+        font-size: 11px;
+    }
+
+    .card {
+        min-width: 270px;
+    }
 }
