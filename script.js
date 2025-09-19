@@ -20,14 +20,14 @@ const model = {
             }
             return note //отрисовка через контроллер после проверки на фильтр
         })
-        
+
     },
     //фильтрует массив, кроме выбранной по id заметки
     deleteNote(noteId) {
         this.notes = this.notes.filter(note => {
             return note.id !== noteId //отрисовка через контроллер после проверки на фильтр
         })
-        
+
     },
     //фильтрует массив с заметками со свойством isFavorite: true
     filterFavorites() {
@@ -133,12 +133,16 @@ const view = {
             const noteId = +(event.target.closest('.card').id)
             if (event.target.closest('.icon-heart')) {
                 controller.toggleFavorite(noteId)
-                
+
                 //перекрашивает иконку для добавления в избранные
                 controller.activateCheckbox()
             }
             if (event.target.closest('.icon-bucket')) {
                 controller.deleteNote(noteId)
+
+                //перекрашивает иконку для добавления в избранные (в случае если удалить все избранные заметки при
+                //вкл фильтре, чтобы выполнялась проверка и перекрашивалась иконка)
+                controller.activateCheckbox()
 
                 //показать зеленое сообщение на 3 сек
                 alertGreen.classList.add('visible');
@@ -266,7 +270,7 @@ const controller = {
         const favoritesSpan = document.querySelector('.favorites-span')
 
         //если хотя бы одна заметка имеет isFavorite:true
-        if(model.notes.some(note => note.isFavorite === true)){
+        if (model.notes.some(note => note.isFavorite === true)) {
             //иконка добавления в избранные окрашивается в черный "активный" цвет, что указывает на
             // возможность по ней кликнуть
             iconCheckbox.classList.remove('grayscale')
