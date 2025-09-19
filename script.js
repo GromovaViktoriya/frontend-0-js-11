@@ -39,31 +39,6 @@ const model = {
         return this.notes.length; //отрисовка через контроллер
     },
 
-    //метод для проверки состояния фильтра и отрисовки массива с учетом фильтра
-    refreshView() {
-        //если фильтр избранных заметок включен
-        if (view.isFilterActive) {
-            //массив отрисованных заметок
-            const favoriteNotes = this.filterFavorites();
-            //блок с иконкой избранных заметок
-            const favoritesContainer = document.querySelector('.favorites-span-wrapper')
-
-            //если удалить все избранные заметки из массива избранных заметок/либо избранных заметок нет, то нужно
-            // перерисовать общий массив карточек и переключить фильтр на "выкл"
-            if (this.filterFavorites().length === 0) {
-                view.isFilterActive = false;
-                favoritesContainer.classList.remove('filter-active');
-                view.renderNotes(model.notes)
-            } else {
-                //если массив избранных заметок не пуст - обновить отрисовку массива избранных карточек
-                view.renderNotes(favoriteNotes);
-            }
-            //если фильтр избранных заметок выключен
-        } else {
-            //отрисовать основной массив
-            view.renderNotes(model.notes);
-        }
-    },
 }
 
 const view = {
@@ -242,28 +217,55 @@ const controller = {
             model.addNote(title, description, color)
         }
         ///отрисовка с проверкой фильтра
-        model.refreshView()
+        this.refreshView()
     },
     toggleFavorite(noteId) {
         model.toggleFavorite(noteId)
         //отрисовка с проверкой фильтра
-        model.refreshView()
+        this.refreshView()
     },
     deleteNote(noteId) {
         model.deleteNote(noteId)
         //отрисовка с проверкой фильтра
-        model.refreshView()
+        this.refreshView()
     },
     filterFavorites() {
         model.filterFavorites();
         //отрисовка с проверкой фильтра (чтобы при клике на чекбокс избранных заметок при отсутствии избранных заметок
         //делалась проверка, иначе экран сбрасывал все карточки и показывал дефолтное сообщение)
-        model.refreshView()
+        this.refreshView()
     },
     //возвращает полученный в модели результат
     countTasks() {
         return model.countTasks()
     },
+
+    //метод для проверки состояния фильтра и отрисовки массива с учетом фильтра
+    refreshView() {
+        //если фильтр избранных заметок включен
+        if (view.isFilterActive) {
+            //массив отрисованных заметок
+            const favoriteNotes = model.filterFavorites();
+            //блок с иконкой избранных заметок
+            const favoritesContainer = document.querySelector('.favorites-span-wrapper')
+
+            //если удалить все избранные заметки из массива избранных заметок/либо избранных заметок нет, то нужно
+            // перерисовать общий массив карточек и переключить фильтр на "выкл"
+            if (model.filterFavorites().length === 0) {
+                view.isFilterActive = false;
+                favoritesContainer.classList.remove('filter-active');
+                view.renderNotes(model.notes)
+            } else {
+                //если массив избранных заметок не пуст - обновить отрисовку массива избранных карточек
+                view.renderNotes(favoriteNotes);
+            }
+            //если фильтр избранных заметок выключен
+        } else {
+            //отрисовать основной массив
+            view.renderNotes(model.notes);
+        }
+    },
+
     //перекрашивает иконку в "активный" цвет при наличии хотя бы одной избранной заметки, иначе цвет серый "неактивный"
     activateCheckbox() {
         const iconCheckbox = document.querySelector('.icon-checkbox')
