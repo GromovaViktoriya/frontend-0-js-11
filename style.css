@@ -346,13 +346,23 @@ body {
     display: none;
 }
 
+.grayscale path {
+    stroke: #919191;
+}
+.grayscale {
+    color: #919191;
+    cursor: not-allowed;
+}
+
+
 @media screen and (max-width: 1279px) {
-.card{
-    flex-grow: 1;
+    .card {
+        flex-grow: 1;
+    }
 }
-}
+
 @media screen and (max-width: 1024px) {
-    .card{
+    .card {
         width: 300px;
     }
 }
@@ -365,6 +375,7 @@ body {
     .header-container {
         padding: 18px 30px;
     }
+
     .textarea-wrapper {
         flex-direction: column;
         row-gap: 12px;
@@ -399,6 +410,7 @@ body {
     .header-notes-svg {
         display: none;
     }
+
     .input, .textarea {
         font-size: 12px;
     }

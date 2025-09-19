@@ -2,67 +2,97 @@ const model = {
     notes: [],
     addNote(title, description, color) {
         const newNote = {
-            title,
-            description,
+            title: title,
             id: new Date().getTime(),
+            description: description,
+            color: color,
             isFavorite: false,
-            color,
         }
+        //добавить в начало массива
         this.notes.unshift(newNote)
-        view.renderNotes(this.notes)
+        return this.notes //отрисовка через контроллер после проверки на фильтр
     },
-
+    //меняет свойство isFavorite на противоположное
     toggleFavorite(noteId) {
         this.notes = this.notes.map(note => {
             if (note.id === noteId) {
                 note.isFavorite = !note.isFavorite
             }
-            return note
+            return note //отрисовка через контроллер после проверки на фильтр
         })
-        view.renderNotes(this.notes)
+        
     },
-
+    //фильтрует массив, кроме выбранной по id заметки
     deleteNote(noteId) {
         this.notes = this.notes.filter(note => {
-            return note.id !== noteId
+            return note.id !== noteId //отрисовка через контроллер после проверки на фильтр
         })
-        view.renderNotes(this.notes)
+        
     },
-
+    //фильтрует массив с заметками со свойством isFavorite: true
     filterFavorites() {
         return this.notes.filter(note => {
-            return note.isFavorite
+            return note.isFavorite //отрисовка через контроллер
         })
     },
-
     countTasks() {
-        return this.notes.length;
-    }
+        return this.notes.length; //отрисовка через контроллер
+    },
+
+    //метод для проверки состояния фильтра и отрисовки массива с учетом фильтра
+    refreshView() {
+        //если фильтр избранных заметок включен
+        if (view.isFilterActive) {
+            //массив отрисованных заметок
+            const favoriteNotes = this.filterFavorites();
+            //блок с иконкой избранных заметок
+            const favoritesContainer = document.querySelector('.favorites-span-wrapper')
+
+            //если удалить все избранные заметки из массива избранных заметок/либо избранных заметок нет, то нужно
+            // перерисовать общий массив карточек и переключить фильтр на "выкл"
+            if (this.filterFavorites().length === 0) {
+                view.isFilterActive = false;
+                favoritesContainer.classList.remove('filter-active');
+                view.renderNotes(model.notes)
+            } else {
+                //если массив избранных заметок не пуст - обновить отрисовку массива избранных карточек
+                view.renderNotes(favoriteNotes);
+            }
+            //если фильтр избранных заметок выключен
+        } else {
+            //отрисовать основной массив
+            view.renderNotes(model.notes);
+        }
+    },
 }
 
 const view = {
+    //основной метод запуска view
     init() {
-        this.renderNotes(model.notes)
-
+        //элементы формы
         const form = document.querySelector('.form')
         const input = document.querySelector('.input')
         const textarea = document.querySelector('.textarea')
 
-        const colors = document.querySelector('.colors')
+        //элементы выбора цвета заметки
+        const colorUl = document.querySelector('.colors')
         const radioButtons = document.querySelectorAll('.radio')
-        let firstCircle = document.querySelector('.circle')
+        const firstCircle = document.querySelector('.circle')
         let selectedColor = firstCircle.classList[1]
 
-        const notesContainer = document.querySelector('.cards-wrapper')
-        const favoritesCheckbox = document.querySelector('.favorites-span-wrapper')
-
+        //элементы всплывающих сообщений
         const alertGreen = document.querySelector('.alert-green')
+        const alertGreenSpan = document.querySelector('.alert-green-span')
         const alertRed = document.querySelector('.alert-red')
 
-        let isFilterActive = false
+        //контейнер для заметок
+        const notesContainer = document.querySelector('.cards-wrapper')
+        //блок с иконкой избранных заметок
+        const favoritesContainer = document.querySelector('.favorites-span-wrapper')
 
 
-        colors.addEventListener('click', (event) => {
+        //обработчик на список с "кнопками" выбора цвета
+        colorUl.addEventListener('click', (event) => {
             if (event.target.classList.contains('circle')) {
                 selectedColor = event.target.classList[1]
                 radioButtons.forEach(radio => {
@@ -73,47 +103,62 @@ const view = {
             }
         })
 
+        //обработчик на форму
         form.addEventListener('submit', (event) => {
+            //отменить дефолтную перезагрузку страницы
             event.preventDefault()
-            if (input.value.length <= 50 && input.value.trim() !== '' && textarea.value.trim() !== '') {
-                controller.addNote(input.value, textarea.value, selectedColor)
-                input.value = ''
-                textarea.value = ''
-
-                document.querySelector('.alert-green-span').textContent = 'Заметка добавлена!'
-                alertGreen.classList.add('visible');
-                setTimeout(() => {
-                    alertGreen.classList.remove('visible');
-                }, 3000)
-
-            } else if (input.value.length > 50) {
+            //если количество символов заголовка больше 50 => показывать красное сообщение на 3 сек
+            if (input.value.length > 50) {
                 alertRed.classList.add('visible');
                 setTimeout(() => {
                     alertRed.classList.remove('visible');
                 }, 3000)
-            }
-        })
-
-        notesContainer.addEventListener('click', (event) => {
-            const noteId = +(event.target.closest('.card').id)
-            if (event.target.closest('.icon-heart')) {
-                controller.toggleFavorite(noteId)
-            } else if (event.target.closest('.icon-bucket')) {
-                controller.deleteNote(noteId)
-                document.querySelector('.alert-green-span').textContent = 'Заметка удалена'
+                //передать данные контроллеру, стереть инпуты, показать зеленое сообщение на 3 сек
+            } else {
+                controller.addNote(input.value, textarea.value, selectedColor)
+                input.value = ''
+                textarea.value = ''
                 alertGreen.classList.add('visible');
                 setTimeout(() => {
                     alertGreen.classList.remove('visible');
                 }, 3000)
+                //обновить отрисовку счетчика заметок
                 view.renderCounter()
             }
         })
 
-        favoritesCheckbox.addEventListener('click', () => {
-            favoritesCheckbox.classList.toggle('filter-active');
-            isFilterActive = !isFilterActive;
+        //один общий слушатель на родительский элемент заметок, т.е. на контейнер, для отслеживания событий в заметках
+        notesContainer.addEventListener('click', (event) => {
+            //находит айди ближайшей к целевому элементу заметки
+            const noteId = +(event.target.closest('.card').id)
+            if (event.target.closest('.icon-heart')) {
+                controller.toggleFavorite(noteId)
+                
+                //перекрашивает иконку для добавления в избранные
+                controller.activateCheckbox()
+            }
+            if (event.target.closest('.icon-bucket')) {
+                controller.deleteNote(noteId)
 
-            if (isFilterActive) {
+                //показать зеленое сообщение на 3 сек
+                alertGreen.classList.add('visible');
+                alertGreenSpan.textContent = 'Заметка удалена!'
+                setTimeout(() => {
+                    alertGreen.classList.remove('visible');
+                }, 3000)
+                //обновить отрисовку счетчика заметок
+                view.renderCounter()
+            }
+        })
+
+        //общий слушатель на блок с иконкой избранных заметок
+        favoritesContainer.addEventListener('click', (event) => {
+            //переключатель класса, который показывает одну иконку и скрывает другую
+            favoritesContainer.classList.toggle('filter-active');
+            //свойство-переключатель меняет значение на противоположное с каждым кликом
+            view.isFilterActive = !view.isFilterActive
+
+            if (view.isFilterActive) {
                 controller.filterFavorites()
             } else {
                 view.renderNotes(model.notes)
@@ -121,22 +166,27 @@ const view = {
         })
     },
 
+    //отрисовка заметок
     renderNotes(notes) {
+        //контейнер для заметок
         const notesContainer = document.querySelector('.cards-wrapper')
+        //блок с иконкой избранных заметок
         const favoritesContainer = document.querySelector('.favorites-span-wrapper')
 
-
+        //если массив с заметками пуст, показывать дефолтное сообщение
         if (notes.length === 0) {
+            favoritesContainer.style.display = 'none'
             notesContainer.innerHTML = `
-            <div class="no-cards-message">
-                У вас нет еще ни одной заметки <br>
-                Заполните поля выше и создайте свою первую заметку!
-            </div>`
+            <div class="no-cards-message">У вас нет еще ни одной заметки <br> 
+            Заполните поля выше и создайте свою первую заметку!
+            </div>
+            `
+            //отрисовать каждую заметку
         } else {
             notesContainer.innerHTML = '';
             notes.forEach(note => {
                 notesContainer.innerHTML += `
-            <div class="card" id="${note.id}">
+                <div class="card" id="${note.id}">
                 <div class="card-title-wrapper ${note.color}">
                     <h2 class="card-title">${note.title}</h2>
                     <div class="card-icon-wrapper">
@@ -163,35 +213,68 @@ const view = {
                 <div class="card-description">${note.description}</div>
             </div>`
             })
+            //включить блок с иконкой избранных заметок
             favoritesContainer.style.display = 'flex'
-            view.renderCounter()
+
+            //обновить отрисовку счетчика заметок
+            this.renderCounter()
         }
     },
 
     renderCounter() {
-        const counterSpan = document.querySelector('.header-notes-number');
-        counterSpan.textContent = `${controller.countTasks()}`;
-    }
+        const counter = document.querySelector('.header-notes-number')
+        counter.textContent = controller.countTasks()
+    },
+
+    //свойство-переключатель для отслеживания работы фильтра избранных заметок и доступа к нему для controller и model
+    isFilterActive: false
 
 }
 
 const controller = {
     addNote(title, description, color) {
-        model.addNote(title, description, color);
-
+        //проверка на пустой ввод и ограничение по количеству символов <=50
+        if ((title.trim() !== '') && (description.trim() !== '') && (title.length <= 50) && (description.length <= 200)) {
+            model.addNote(title, description, color)
+        }
+        ///отрисовка с проверкой фильтра
+        model.refreshView()
     },
     toggleFavorite(noteId) {
         model.toggleFavorite(noteId)
+        //отрисовка с проверкой фильтра
+        model.refreshView()
     },
     deleteNote(noteId) {
         model.deleteNote(noteId)
+        //отрисовка с проверкой фильтра
+        model.refreshView()
     },
     filterFavorites() {
-        const favoriteNotes = model.filterFavorites();
-        view.renderNotes(favoriteNotes)
+        model.filterFavorites();
+        //отрисовка с проверкой фильтра (чтобы при клике на чекбокс избранных заметок при отсутствии избранных заметок
+        //делалась проверка, иначе экран сбрасывал все карточки и показывал дефолтное сообщение)
+        model.refreshView()
     },
+    //возвращает полученный в модели результат
     countTasks() {
-        return model.countTasks();
+        return model.countTasks()
+    },
+    //перекрашивает иконку в "активный" цвет при наличии хотя бы одной избранной заметки, иначе цвет серый "неактивный"
+    activateCheckbox() {
+        const iconCheckbox = document.querySelector('.icon-checkbox')
+        const favoritesSpan = document.querySelector('.favorites-span')
+
+        //если хотя бы одна заметка имеет isFavorite:true
+        if(model.notes.some(note => note.isFavorite === true)){
+            //иконка добавления в избранные окрашивается в черный "активный" цвет, что указывает на
+            // возможность по ней кликнуть
+            iconCheckbox.classList.remove('grayscale')
+            favoritesSpan.classList.remove('grayscale')
+        } else {
+            iconCheckbox.classList.add('grayscale')
+            favoritesSpan.classList.add('grayscale')
+        }
     }
 }
 
@@ -199,4 +282,5 @@ function init() {
     view.init();
 }
 
+//запуск функции init после того, как загрузился контент DOM
 document.addEventListener('DOMContentLoaded', init);
