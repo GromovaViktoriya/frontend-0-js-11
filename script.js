@@ -1,5 +1,6 @@
 const model = {
     notes: [],
+    alerts: [],
     addNote(title, description, color) {
         const newNote = {
             title: title,
@@ -39,6 +40,19 @@ const model = {
         return this.notes.length; //отрисовка через контроллер
     },
 
+    showGreenAlerts(description) {
+        const newAlert = {
+            description: description,
+            id: new Date().getTime(),
+        }
+        this.alerts.unshift(newAlert)
+        return newAlert.id;
+    },
+
+    deleteAlertGreen(alertId) {
+        const indexToRemove = this.alerts.findIndex(alert => alert.id === alertId);
+        this.alerts.splice(indexToRemove, 1);
+    }
 }
 
 const view = {
@@ -93,10 +107,20 @@ const view = {
                 controller.addNote(input.value, textarea.value, selectedColor)
                 input.value = ''
                 textarea.value = ''
-                alertGreen.classList.add('visible');
-                setTimeout(() => {
-                    alertGreen.classList.remove('visible');
-                }, 3000)
+                //возвращает дефолтный выбор цвета на желтый кружок
+                radioButtons.forEach(radio => {
+                    radio.classList.remove('selected')
+                })
+                firstCircle.closest('.radio').classList.add('selected')
+
+                // //показывает всплывающие сообщения
+                // alertGreen.classList.add('visible');
+                // setTimeout(() => {
+                //     alertGreen.classList.remove('visible');
+                // }, 3000)
+
+                controller.showGreenAlerts('Заметка добавлена!')
+
                 //обновить отрисовку счетчика заметок
                 view.renderCounter()
             }
@@ -119,12 +143,14 @@ const view = {
                 //вкл фильтре, чтобы выполнялась проверка и перекрашивалась иконка)
                 controller.activateCheckbox()
 
-                //показать зеленое сообщение на 3 сек
-                alertGreen.classList.add('visible');
-                alertGreenSpan.textContent = 'Заметка удалена!'
-                setTimeout(() => {
-                    alertGreen.classList.remove('visible');
-                }, 3000)
+                // //показать зеленое сообщение на 3 сек
+                // alertGreen.classList.add('visible');
+                // alertGreenSpan.textContent = 'Заметка удалена!'
+                // setTimeout(() => {
+                //     alertGreen.classList.remove('visible');
+                // }, 3000)
+
+                controller.showGreenAlerts('Заметка удалена!')
                 //обновить отрисовку счетчика заметок
                 view.renderCounter()
             }
@@ -205,6 +231,24 @@ const view = {
         counter.textContent = controller.countTasks()
     },
 
+    renderAlertGreen(alerts) {
+        const alertGreenContainer = document.querySelector('.alert-green-wrapper')
+        alertGreenContainer.innerHTML = '';
+        alerts.forEach(alert => {
+            alertGreenContainer.innerHTML += `
+                <div class="alert-green visible" id="${alert.id}">
+                    <svg class="green-svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                         xmlns="http://www.w3.org/2000/svg">
+                        <path d="M7 12.5L10 15.5L17 8.5" stroke="white" stroke-width="2" stroke-linecap="round"
+                              stroke-linejoin="round"/>
+                        <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"
+                              stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span class="alert-green-span">${alert.description}</span>
+                </div>`
+        })
+    },
+
     //свойство-переключатель для отслеживания работы фильтра избранных заметок и доступа к нему для controller и model
     isFilterActive: false
 
@@ -281,6 +325,15 @@ const controller = {
             iconCheckbox.classList.add('grayscale')
             favoritesSpan.classList.add('grayscale')
         }
+    },
+
+    showGreenAlerts(description) {
+        const newAlertId = model.showGreenAlerts(description);
+        view.renderAlertGreen(model.alerts)
+        setTimeout(() => {
+            model.deleteAlertGreen(newAlertId); // Говорим модели удалить алерт
+            view.renderAlertGreen(model.alerts); // И снова просим View перерисовать список
+        }, 3000);
     }
 }
 
