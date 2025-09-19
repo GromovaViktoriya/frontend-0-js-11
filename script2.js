@@ -206,7 +206,7 @@ const view = {
 const controller = {
     addNote(title, description, color) {
         //проверка на пустой ввод и ограничение по количеству символов <=50
-        if ((title.trim() !== '') && (description.trim() !== '') && (title.length <= 50)) {
+        if ((title.trim() !== '') && (description.trim() !== '') && (title.length <= 50) && (description.length <= 200)) {
             model.addNote(title, description, color)
         }
     },
