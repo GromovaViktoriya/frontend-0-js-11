@@ -39,7 +39,6 @@ const MOCKData = [
 
 const model = {
     notes: MOCKData,
-    alerts: [],
     addNote(title, description, color) {
         const newNote = {
             title: title,
@@ -77,20 +76,6 @@ const model = {
     },
     countTasks() {
         return this.notes.length; //отрисовка через контроллер
-    },
-
-    showGreenAlerts(description) {
-        const newAlert = {
-            description: description,
-            id: new Date().getTime(),
-        }
-        this.alerts.unshift(newAlert)
-        return newAlert.id;
-    },
-
-    deleteAlertGreen(alertId) {
-        const indexToRemove = this.alerts.findIndex(alert => alert.id === alertId);
-        this.alerts.splice(indexToRemove, 1);
     }
 }
 
@@ -101,6 +86,7 @@ const view = {
     //основной метод запуска view
     init() {
         view.renderNotes(model.notes)
+
         //элементы формы
         const form = document.querySelector('.form')
         const input = document.querySelector('.input')
@@ -112,9 +98,7 @@ const view = {
         const firstCircle = document.querySelector('.circle')
         let selectedColor = firstCircle.classList[1]
 
-        //элементы всплывающих сообщений
-        const alertGreen = document.querySelector('.alert-green')
-        const alertGreenSpan = document.querySelector('.alert-green-span')
+        //элемент красного всплывающего сообщения
         const alertRed = document.querySelector('.alert-red')
 
         //контейнер для заметок
@@ -139,6 +123,7 @@ const view = {
         form.addEventListener('submit', (event) => {
             //отменить дефолтную перезагрузку страницы
             event.preventDefault()
+
             //если количество символов заголовка больше 50 => показывать красное сообщение на 3 сек
             if (input.value.length > 50) {
                 alertRed.classList.add('visible');
@@ -158,13 +143,8 @@ const view = {
                 })
                 firstCircle.closest('.radio').classList.add('selected')
 
-                // //показывает всплывающие сообщения
-                // alertGreen.classList.add('visible');
-                // setTimeout(() => {
-                //     alertGreen.classList.remove('visible');
-                // }, 3000)
-
-                controller.showGreenAlerts('Заметка добавлена!')
+                //показать зеленое сообщение с анимацией, чтобы сообщения появлялись одно над другим, на 3 сек
+                view.showGreenAlerts('Заметка добавлена!')
 
                 //обновить отрисовку счетчика заметок
                 view.renderCounter()
@@ -188,14 +168,9 @@ const view = {
                 //вкл фильтре, чтобы выполнялась проверка и перекрашивалась иконка)
                 controller.activateCheckbox()
 
-                // //показать зеленое сообщение на 3 сек
-                // alertGreen.classList.add('visible');
-                // alertGreenSpan.textContent = 'Заметка удалена!'
-                // setTimeout(() => {
-                //     alertGreen.classList.remove('visible');
-                // }, 3000)
+                //показать зеленое сообщение с анимацией, чтобы сообщения появлялись одно над другим, на 3 сек
+                view.showGreenAlerts('Заметка удалена!')
 
-                controller.showGreenAlerts('Заметка удалена!')
                 //обновить отрисовку счетчика заметок
                 view.renderCounter()
             }
@@ -220,7 +195,7 @@ const view = {
     renderNotes(notes) {
         //контейнер для заметок
         const notesContainer = document.querySelector('.cards-wrapper')
-        //блок с иконкой избранных заметок
+        //контейнер с иконкой и надписью избранных заметок
         const favoritesContainer = document.querySelector('.favorites-span-wrapper')
 
         //если массив с заметками пуст, показывать дефолтное сообщение
@@ -263,7 +238,7 @@ const view = {
                 <div class="card-description">${note.description}</div>
             </div>`
             })
-            //включить блок с иконкой избранных заметок
+            //включить контейнер с иконкой и надписью избранных заметок
             favoritesContainer.style.display = 'flex'
 
             //обновить отрисовку счетчика заметок
@@ -271,27 +246,48 @@ const view = {
         }
     },
 
+    //отрисовка счетчика заметок
     renderCounter() {
         const counter = document.querySelector('.header-notes-number')
         counter.textContent = controller.countTasks()
     },
 
-    renderAlertGreen(alerts) {
+    //отрисовка всплывающих alert-green сообщений с анимацией
+    //метод находится во View, поскольку он не работает с данными в model
+    showGreenAlerts(description) {
         const alertGreenContainer = document.querySelector('.alert-green-wrapper')
-        alertGreenContainer.innerHTML = '';
-        alerts.forEach(alert => {
-            alertGreenContainer.innerHTML += `
-                <div class="alert-green visible" id="${alert.id}">
-                    <svg class="green-svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+        const alertGreenMessage = document.createElement('div')
+        alertGreenMessage.classList.add('alert-green')
+
+        alertGreenMessage.innerHTML = `
+               <svg class="green-svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                          xmlns="http://www.w3.org/2000/svg">
                         <path d="M7 12.5L10 15.5L17 8.5" stroke="white" stroke-width="2" stroke-linecap="round"
                               stroke-linejoin="round"/>
                         <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"
                               stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
-                    <span class="alert-green-span">${alert.description}</span>
-                </div>`
-        })
+               <span class="alert-green-span">${description}</span>`;
+
+        //вставляет сообщение в начало "списка"
+        alertGreenContainer.prepend(alertGreenMessage);
+
+        //таймеры манипуляции классами для анимации сообщений
+        setTimeout(() => {
+            alertGreenMessage.classList.add('visible');
+        }, 10); //0,1 сек
+
+        //таймер на удаление
+        setTimeout(() => {
+            //сначала анимация исчезновения
+            alertGreenMessage.classList.remove('visible');
+            alertGreenMessage.classList.add('fade-out');
+
+            //после того как анимация исчезновения закончится, удаляет элемент из HTML
+            setTimeout(() => {
+                alertGreenMessage.remove();
+            }, 400); //0,4 сек
+        }, 3000);
     }
 }
 
@@ -331,11 +327,11 @@ const controller = {
         if (view.isFilterActive) {
             //массив отрисованных заметок
             const favoriteNotes = model.filterFavorites();
-            //блок с иконкой избранных заметок
+            //контейнер с иконкой и надписью избранных заметок
             const favoritesContainer = document.querySelector('.favorites-span-wrapper')
 
             //если удалить все избранные заметки из массива избранных заметок/либо избранных заметок нет, то нужно
-            // перерисовать общий массив карточек и переключить фильтр на "выкл"
+            // перерисовать общий массив заметок и переключить фильтр на "выкл"
             if (model.filterFavorites().length === 0) {
                 view.isFilterActive = false;
                 favoritesContainer.classList.remove('filter-active');
@@ -346,7 +342,7 @@ const controller = {
             }
             //если фильтр избранных заметок выключен
         } else {
-            //отрисовать основной массив
+            //отрисовать общий массив заметок
             view.renderNotes(model.notes);
         }
     },
@@ -366,18 +362,6 @@ const controller = {
             iconCheckbox.classList.add('grayscale')
             favoritesSpan.classList.add('grayscale')
         }
-    },
-
-    showGreenAlerts(description) {
-        //получение айди сообщения из метода модели showGreenAlerts(description)
-        const newAlertId = model.showGreenAlerts(description);
-        view.renderAlertGreen(model.alerts) //отрисовка массива сообщений
-
-        //через 3сек удалить сообщение и перерисовать массив сообщений
-        setTimeout(() => {
-            model.deleteAlertGreen(newAlertId); //удаление сообщения по его айди
-            view.renderAlertGreen(model.alerts); //отрисовка массива сообщений
-        }, 3000);
     }
 }
 
