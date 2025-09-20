@@ -1,5 +1,44 @@
+const MOCKData = [
+    {
+        title: 'Codewars',
+        id: Math.random(),
+        description: 'Решить 2-3 задачи на Codewars',
+        color: 'magenta',
+        isFavorite: false
+    },
+    {
+        title: 'IT Incubator course',
+        id: Math.random(),
+        description: 'Дописать самостоятельный проект',
+        color: 'green',
+        isFavorite: false
+    },
+    {
+        title: 'Javascript course',
+        id: Math.random(),
+        description: 'Посмотреть курс Димыча на youtube по JS с нуля',
+        color: 'blue',
+        isFavorite: false
+    },
+    {
+        title: 'CSS practise',
+        id: Math.random(),
+        description: 'Сделать несколько проектов со сложной версткой на youtube',
+        color: 'yellow',
+        isFavorite: false
+    },
+    {
+        title: 'Книга по JS',
+        id: Math.random(),
+        description: 'Прочитать уже знакомые темы в книге "Javascript с нуля", чтобы их закрепить',
+        color: 'red',
+        isFavorite: false
+    }
+]
+
+
 const model = {
-    notes: [],
+    notes: MOCKData,
     alerts: [],
     addNote(title, description, color) {
         const newNote = {
@@ -56,8 +95,12 @@ const model = {
 }
 
 const view = {
+    //свойство-переключатель для отслеживания работы фильтра избранных заметок и доступа к нему для controller и model
+    isFilterActive: false,
+
     //основной метод запуска view
     init() {
+        view.renderNotes(model.notes)
         //элементы формы
         const form = document.querySelector('.form')
         const input = document.querySelector('.input')
@@ -107,7 +150,9 @@ const view = {
                 controller.addNote(input.value, textarea.value, selectedColor)
                 input.value = ''
                 textarea.value = ''
+
                 //возвращает дефолтный выбор цвета на желтый кружок
+                selectedColor = firstCircle.classList[1]
                 radioButtons.forEach(radio => {
                     radio.classList.remove('selected')
                 })
@@ -247,11 +292,7 @@ const view = {
                     <span class="alert-green-span">${alert.description}</span>
                 </div>`
         })
-    },
-
-    //свойство-переключатель для отслеживания работы фильтра избранных заметок и доступа к нему для controller и model
-    isFilterActive: false
-
+    }
 }
 
 const controller = {
@@ -328,11 +369,14 @@ const controller = {
     },
 
     showGreenAlerts(description) {
+        //получение айди сообщения из метода модели showGreenAlerts(description)
         const newAlertId = model.showGreenAlerts(description);
-        view.renderAlertGreen(model.alerts)
+        view.renderAlertGreen(model.alerts) //отрисовка массива сообщений
+
+        //через 3сек удалить сообщение и перерисовать массив сообщений
         setTimeout(() => {
-            model.deleteAlertGreen(newAlertId); // Говорим модели удалить алерт
-            view.renderAlertGreen(model.alerts); // И снова просим View перерисовать список
+            model.deleteAlertGreen(newAlertId); //удаление сообщения по его айди
+            view.renderAlertGreen(model.alerts); //отрисовка массива сообщений
         }, 3000);
     }
 }

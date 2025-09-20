@@ -293,13 +293,18 @@ body {
 
 }
 
-.alert-green-wrapper{
+.alert-green-wrapper {
     display: flex;
     flex-direction: column;
     gap: 12px;
+
+    position: fixed;
+    bottom: 72px;
+    right: 64px;
 }
 
 .alert-red, .alert-green {
+    width: fit-content;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -308,33 +313,43 @@ body {
 
     border-radius: 10px;
     box-shadow: 0 8px 12px 0 rgba(11, 12, 13, 0.08), 0 16px 24px 0 rgba(11, 12, 13, 0.04), 0 1px 2px 0 rgba(11, 12, 13, 0.08);
+}
 
+.alert-green {
+    background: #47b27d;
+    margin-top: 12px;
+    opacity: 0;
+    transform: translateX(100%);
+    transition: opacity 0.3s ease, transform 0.4s ease;
+}
+
+.alert-green.visible {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.alert-green.fade-out {
+    opacity: 0;
+    transform: translateX(100%);
+}
+
+.alert-red {
     margin-left: auto;
     bottom: 72px;
+
+    background: #f23d5b;
     position: sticky;
 
-    opacity: 0;
     visibility: hidden;
+    opacity: 0;
     transform: translateY(20px);
     transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
 }
 
-.alert-red.visible, .alert-green.visible {
+.alert-red.visible {
     opacity: 1;
     visibility: visible;
     transform: translateY(0);
-}
-
-.alert-red {
-    width: fit-content;
-    background: #f23d5b;
-
-}
-
-.alert-green {
-    width: fit-content;
-    background: #47b27d;
-
 }
 
 .alert-green-span, .alert-red-span {
@@ -355,6 +370,7 @@ body {
 .grayscale path {
     stroke: #919191;
 }
+
 .grayscale {
     color: #919191;
     cursor: not-allowed;
@@ -386,6 +402,11 @@ body {
         flex-direction: column;
         row-gap: 12px;
     }
+
+    .alert-green-wrapper {
+        bottom: 30px;
+        right: 30px;
+    }
 }
 
 @media screen and (max-width: 684px) {
@@ -410,12 +431,20 @@ body {
     .header-container {
         padding: 18px 15px;
     }
+
+    .alert-green-wrapper {
+        bottom: 15px;
+        right: 15px;
+    }
 }
 
 @media screen and (max-width: 400px) {
-    .header-notes-svg {
-        display: none;
+    .header-wrapper {
+        flex-direction: column;
+        row-gap: 5px;
+        align-items: center;
     }
+
 
     .input, .textarea {
         font-size: 12px;
@@ -427,5 +456,18 @@ body {
 
     .card {
         min-width: 270px;
+
     }
+
+    .card-title-wrapper{
+        margin-bottom: 0;
+    }
+    .card-title{
+        font-size: 14px;
+    }
+
+    .card-description{
+        font-size: 12px;
+    }
+
 }
