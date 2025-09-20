@@ -7,6 +7,7 @@
 body {
     font-family: "Montserrat", sans-serif;
     font-style: normal;
+   min-width: 375px;
 }
 
 .header {
