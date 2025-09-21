@@ -39,6 +39,10 @@ const MOCKData = [
 
 const model = {
     notes: MOCKData,
+
+    //свойство-переключатель для отслеживания работы фильтра избранных заметок
+    isFilterActive: false,
+
     addNote(title, description, color) {
         const newNote = {
             title: title,
@@ -80,8 +84,6 @@ const model = {
 }
 
 const view = {
-    //свойство-переключатель для отслеживания работы фильтра избранных заметок и доступа к нему для controller и model
-    isFilterActive: false,
 
     //основной метод запуска view
     init() {
@@ -97,9 +99,6 @@ const view = {
         const radioButtons = document.querySelectorAll('.radio')
         const firstCircle = document.querySelector('.circle')
         let selectedColor = firstCircle.classList[1]
-
-        //элемент красного всплывающего сообщения
-        const alertRed = document.querySelector('.alert-red')
 
         //контейнер для заметок
         const notesContainer = document.querySelector('.cards-wrapper')
@@ -175,9 +174,9 @@ const view = {
             //переключатель класса, который показывает одну иконку и скрывает другую
             favoritesContainer.classList.toggle('filter-active');
             //свойство-переключатель меняет значение на противоположное с каждым кликом
-            view.isFilterActive = !view.isFilterActive
+            model.isFilterActive = !model.isFilterActive
 
-            if (view.isFilterActive) {
+            if (model.isFilterActive) {
                 controller.filterFavorites()
             } else {
                 view.renderNotes(model.notes)
@@ -269,6 +268,8 @@ const view = {
         //функция таймера манипуляции классами для анимации сообщений
         animateAlertMessage(alertGreenMessage);
     },
+
+    //отрисовка всплывающих alert-red сообщений с анимацией
     showRedAlerts(description) {
         const alertContainer = document.querySelector('.alert-wrapper')
         const alertRedMessage = document.createElement('div')
@@ -330,7 +331,7 @@ const controller = {
     //метод для проверки состояния фильтра и отрисовки массива с учетом фильтра
     refreshView() {
         //если фильтр избранных заметок включен
-        if (view.isFilterActive) {
+        if (model.isFilterActive) {
             //массив отрисованных заметок
             const favoriteNotes = model.filterFavorites();
             //контейнер с иконкой и надписью избранных заметок
@@ -339,7 +340,7 @@ const controller = {
             //если удалить все избранные заметки из массива избранных заметок/либо избранных заметок нет, то нужно
             // перерисовать общий массив заметок и переключить фильтр на "выкл"
             if (model.filterFavorites().length === 0) {
-                view.isFilterActive = false;
+                model.isFilterActive = false;
                 favoritesContainer.classList.remove('filter-active');
                 view.renderNotes(model.notes)
             } else {
