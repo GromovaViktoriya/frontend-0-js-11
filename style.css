@@ -362,6 +362,10 @@ body {
     cursor: not-allowed;
 }
 
+.label.red-notice {
+    color: #f23d5b;
+}
+
 @media screen and (max-width: 1279px) {
     .card {
         flex-grow: 1;

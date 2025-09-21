@@ -93,6 +93,8 @@ const view = {
         const form = document.querySelector('.form')
         const input = document.querySelector('.input')
         const textarea = document.querySelector('.textarea')
+        const inputLabel = document.querySelector('.input-label')
+        const textareaLabel = document.querySelector('.textarea-label')
 
         //элементы выбора цвета заметки
         const colorUl = document.querySelector('.colors')
@@ -126,8 +128,28 @@ const view = {
             //если количество символов заголовка больше 50 => показывать красное сообщение на 3 сек
             if (input.value.length > 50) {
                 view.showRedAlerts('Максимальная длина заголовка - 50 символов')
-                //передать данные контроллеру, стереть инпуты, показать зеленое сообщение на 3 сек
-            } else {
+
+            //если инпут и поле ввода пустые - показать красный текст в label
+            } else if ((input.value.trim() === '')||(textarea.value.trim() === '')){
+                if (input.value.trim() === '') {
+                    inputLabel.classList.add('red-notice')
+                    inputLabel.textContent = 'Заполните название заметки'
+                    setTimeout(() => {
+                        inputLabel.classList.remove('red-notice')
+                        inputLabel.textContent = 'Название заметки'
+                    }, 1000)
+                } if (textarea.value.trim() === '') {
+                    textareaLabel.classList.add('red-notice')
+                    textareaLabel.textContent = 'Заполните описание заметки'
+                    setTimeout(() => {
+                        textareaLabel.classList.remove('red-notice')
+                        textareaLabel.textContent = 'Описание новой заметки'
+                    }, 1000)
+                }
+            }
+
+            //передать данные контроллеру, стереть инпуты, показать зеленое сообщение на 3 сек
+            else {
                 controller.addNote(input.value, textarea.value, selectedColor)
                 input.value = ''
                 textarea.value = ''
@@ -376,7 +398,7 @@ function init() {
     view.init();
 }
 
-function animateAlertMessage(alertDiv){
+function animateAlertMessage(alertDiv) {
     //таймеры манипуляции классами для анимации сообщений
     setTimeout(() => {
         alertDiv.classList.add('visible');
