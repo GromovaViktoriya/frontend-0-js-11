@@ -269,7 +269,6 @@ body {
 }
 
 .card-description {
-    max-width: 344px;
     padding: 12px;
     font-weight: 400;
     font-size: 14px;
@@ -294,14 +293,14 @@ body {
 
 }
 
-.alert-green-wrapper, .alert-red-wrapper {
+.alert-wrapper {
     display: flex;
     flex-direction: column;
     gap: 12px;
 
     position: fixed;
-    bottom: 72px;
-    right: 64px;
+    bottom: 0;
+    right:  44px;
 }
 
 .alert-red, .alert-green {
@@ -317,34 +316,26 @@ body {
 
     transform: translateY(20px);
     opacity: 0;
+    transition: opacity 0.3s ease, transform 0.4s ease;
+    margin-top: 12px;
 }
 
 .alert-green {
     background: #47b27d;
-    margin-top: 12px;
-    transition: opacity 0.3s ease, transform 0.4s ease;
-}
-
-.alert-green.visible {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-.alert-green.fade-out {
-    opacity: 0;
-    transform: translateY(20px);
 }
 
 .alert-red {
     background: #f23d5b;
-    visibility: hidden;
-    transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
 }
 
-.alert-red.visible {
+.alert-green.visible, .alert-red.visible {
     opacity: 1;
-    visibility: visible;
     transform: translateY(0);
+}
+
+.alert-green.fade-out, .alert-red.fade-out {
+    opacity: 0;
+    transform: translateY(20px);
 }
 
 .alert-green-span, .alert-red-span {
@@ -370,7 +361,6 @@ body {
     color: #919191;
     cursor: not-allowed;
 }
-
 
 @media screen and (max-width: 1279px) {
     .card {
@@ -399,8 +389,8 @@ body {
     }
 
     .alert-green-wrapper {
-        bottom: 30px;
-        right: 30px;
+        bottom: 10px;
+        right: 10px;
     }
 }
 
@@ -428,8 +418,8 @@ body {
     }
 
     .alert-green-wrapper {
-        bottom: 15px;
-        right: 15px;
+        bottom: 5px;
+        right: 5px;
     }
 }
 

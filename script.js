@@ -126,10 +126,7 @@ const view = {
 
             //если количество символов заголовка больше 50 => показывать красное сообщение на 3 сек
             if (input.value.length > 50) {
-                alertRed.classList.add('visible');
-                setTimeout(() => {
-                    alertRed.classList.remove('visible');
-                }, 3000)
+                view.showRedAlerts('Максимальная длина заголовка - 50 символов')
                 //передать данные контроллеру, стереть инпуты, показать зеленое сообщение на 3 сек
             } else {
                 controller.addNote(input.value, textarea.value, selectedColor)
@@ -252,7 +249,7 @@ const view = {
     //отрисовка всплывающих alert-green сообщений с анимацией
     //метод находится во View, поскольку он не работает с данными в model
     showGreenAlerts(description) {
-        const alertGreenContainer = document.querySelector('.alert-green-wrapper')
+        const alertContainer = document.querySelector('.alert-wrapper')
         const alertGreenMessage = document.createElement('div')
         alertGreenMessage.classList.add('alert-green')
 
@@ -267,24 +264,32 @@ const view = {
                <span class="alert-green-span">${description}</span>`;
 
         //вставляет сообщение в начало "списка"
-        alertGreenContainer.prepend(alertGreenMessage);
+        alertContainer.prepend(alertGreenMessage);
 
-        //таймеры манипуляции классами для анимации сообщений
-        setTimeout(() => {
-            alertGreenMessage.classList.add('visible');
-        }, 10); //0,1 сек
+        //функция таймера манипуляции классами для анимации сообщений
+        animateAlertMessage(alertGreenMessage);
+    },
+    showRedAlerts(description) {
+        const alertContainer = document.querySelector('.alert-wrapper')
+        const alertRedMessage = document.createElement('div')
+        alertRedMessage.classList.add('alert-red')
 
-        //таймер на удаление
-        setTimeout(() => {
-            //сначала анимация исчезновения
-            alertGreenMessage.classList.remove('visible');
-            alertGreenMessage.classList.add('fade-out');
+        alertRedMessage.innerHTML = `
+               <svg class="red-svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                     xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"
+                          stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M12 8V12" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M12 16.01L12.01 15.9989" stroke="white" stroke-width="2" stroke-linecap="round"
+                          stroke-linejoin="round"/>
+                </svg>
+               <span class="alert-red-span">${description}</span>`;
 
-            //после того как анимация исчезновения закончится, удаляет элемент из HTML
-            setTimeout(() => {
-                alertGreenMessage.remove();
-            }, 400); //0,4 сек
-        }, 3000);
+        //вставляет сообщение в начало "списка"
+        alertContainer.prepend(alertRedMessage);
+
+        //функция таймера манипуляции классами для анимации сообщений
+        animateAlertMessage(alertRedMessage);
     }
 }
 
@@ -368,6 +373,25 @@ const controller = {
 
 function init() {
     view.init();
+}
+
+function animateAlertMessage(alertDiv){
+    //таймеры манипуляции классами для анимации сообщений
+    setTimeout(() => {
+        alertDiv.classList.add('visible');
+    }, 10); //0,1 сек
+
+    //таймер на удаление
+    setTimeout(() => {
+        //сначала анимация исчезновения
+        alertDiv.classList.remove('visible');
+        alertDiv.classList.add('fade-out');
+
+        //после того как анимация исчезновения закончится, удаляет элемент из HTML
+        setTimeout(() => {
+            alertDiv.remove();
+        }, 400); //0,4 сек
+    }, 3000);
 }
 
 //запуск функции init после того, как загрузился контент DOM
