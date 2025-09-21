@@ -143,9 +143,6 @@ const view = {
                 })
                 firstCircle.closest('.radio').classList.add('selected')
 
-                //показать зеленое сообщение с анимацией, чтобы сообщения появлялись одно над другим, на 3 сек
-                view.showGreenAlerts('Заметка добавлена!')
-
                 //обновить отрисовку счетчика заметок
                 view.renderCounter()
             }
@@ -296,6 +293,10 @@ const controller = {
         //проверка на пустой ввод и ограничение по количеству символов <=50
         if ((title.trim() !== '') && (description.trim() !== '') && (title.length <= 50) && (description.length <= 200)) {
             model.addNote(title, description, color)
+
+            //если прошла проверка на пустой ввод и заметка добавилась, показать зеленое сообщение с анимацией, чтобы
+            // сообщения появлялись одно над другим, на 3 сек
+            view.showGreenAlerts('Заметка добавлена!')
         }
         ///отрисовка с проверкой фильтра
         this.refreshView()
