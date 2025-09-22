@@ -4,10 +4,21 @@
     box-sizing: border-box;
 }
 
+@font-face {
+    font-family: "Montserrat";
+    src: url("./assets/fonts/Montserrat-Regular.ttf");
+}
+
+@font-face {
+    font-family: "Montserrat";
+    font-weight: 500;
+    src: url("./assets/fonts/Montserrat-Medium.ttf");
+}
+
 body {
     font-family: "Montserrat", sans-serif;
     font-style: normal;
-   min-width: 375px;
+    min-width: 375px;
 }
 
 .header {
@@ -107,7 +118,6 @@ body {
 .textarea {
     height: 84px;
     resize: none;
-
 }
 
 .input::placeholder, .textarea::placeholder {
@@ -200,7 +210,6 @@ body {
     align-items: center;
     margin-bottom: 12px;
     cursor: pointer;
-
 }
 
 .icon-checkbox, .icon-checkbox-checked {
@@ -290,7 +299,6 @@ body {
     color: #000;
     display: flex;
     margin: 138px auto 0;
-
 }
 
 .alert-wrapper {
@@ -300,7 +308,7 @@ body {
 
     position: fixed;
     bottom: 0;
-    right:  44px;
+    right: 44px;
 }
 
 .alert-red, .alert-green {
@@ -443,15 +451,15 @@ body {
 
     }
 
-    .card-title-wrapper{
+    .card-title-wrapper {
         margin-bottom: 0;
     }
-    .card-title{
+
+    .card-title {
         font-size: 14px;
     }
 
-    .card-description{
+    .card-description {
         font-size: 12px;
     }
-
 }

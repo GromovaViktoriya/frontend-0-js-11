@@ -131,8 +131,8 @@ const view = {
             if (input.value.length > 50) {
                 view.showRedAlerts('Максимальная длина заголовка - 50 символов')
 
-            //если инпут и поле ввода пустые - показывать красное сообщение на 3 сек
-            } else if ((input.value.trim() === '')||(textarea.value.trim() === '')){
+                //если инпут и поле ввода пустые - показывать красное сообщение на 3 сек
+            } else if ((input.value.trim() === '') || (textarea.value.trim() === '')) {
                 view.showRedAlerts('Заполните все поля!')
             }
 
