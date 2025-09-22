@@ -55,6 +55,7 @@ const model = {
         this.notes.unshift(newNote)
         return this.notes //отрисовка через контроллер после проверки на фильтр
     },
+
     //меняет свойство isFavorite на противоположное
     toggleFavorite(noteId) {
         this.notes = this.notes.map(note => {
@@ -63,21 +64,23 @@ const model = {
             }
             return note //отрисовка через контроллер после проверки на фильтр
         })
-
     },
+
     //фильтрует массив, кроме выбранной по id заметки
     deleteNote(noteId) {
         this.notes = this.notes.filter(note => {
             return note.id !== noteId //отрисовка через контроллер после проверки на фильтр
         })
-
     },
+
     //фильтрует массив с заметками со свойством isFavorite: true
     filterFavorites() {
         return this.notes.filter(note => {
             return note.isFavorite //отрисовка через контроллер
         })
     },
+
+    //возвращает в контроллер цифру длины общего массива заметок для счетчика
     countTasks() {
         return this.notes.length; //отрисовка через контроллер
     }
@@ -87,6 +90,7 @@ const view = {
 
     //основной метод запуска view
     init() {
+        //отрисовывает моковые заметки со старта
         view.renderNotes(model.notes)
 
         //элементы формы
@@ -104,7 +108,7 @@ const view = {
 
         //контейнер для заметок
         const notesContainer = document.querySelector('.cards-wrapper')
-        //блок с иконкой избранных заметок
+        //контейнер с иконкой и надписью избранных заметок
         const favoritesContainer = document.querySelector('.favorites-span-wrapper')
 
 
@@ -191,7 +195,7 @@ const view = {
             }
         })
 
-        //общий слушатель на блок с иконкой избранных заметок
+        //общий слушатель на контейнер с иконкой и надписью избранных заметок
         favoritesContainer.addEventListener('click', (event) => {
             //переключатель класса, который показывает одну иконку и скрывает другую
             favoritesContainer.classList.toggle('filter-active');
@@ -326,7 +330,7 @@ const controller = {
             // сообщения появлялись одно над другим, на 3 сек
             view.showGreenAlerts('Заметка добавлена!')
         }
-        ///отрисовка с проверкой фильтра
+        //отрисовка с проверкой фильтра
         this.refreshView()
     },
     toggleFavorite(noteId) {
@@ -342,7 +346,7 @@ const controller = {
     filterFavorites() {
         model.filterFavorites();
         //отрисовка с проверкой фильтра (чтобы при клике на чекбокс избранных заметок при отсутствии избранных заметок
-        //делалась проверка, иначе экран сбрасывал все карточки и показывал дефолтное сообщение)
+        //делалась проверка, иначе экран сбрасывает все карточки и показывает дефолтное сообщение)
         this.refreshView()
     },
     //возвращает полученный в модели результат
