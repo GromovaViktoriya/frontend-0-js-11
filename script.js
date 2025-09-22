@@ -221,7 +221,7 @@ const view = {
         if (notes.length === 0) {
             favoritesContainer.style.display = 'none'
             notesContainer.innerHTML = `
-            <div class="no-cards-message">У вас нет еще ни одной заметки <br> 
+            <div class="no-cards-message">У вас нет еще ни одной заметки.<br> 
             Заполните поля выше и создайте свою первую заметку!
             </div>
             `
