@@ -97,8 +97,6 @@ const view = {
         const form = document.querySelector('.form')
         const input = document.querySelector('.input')
         const textarea = document.querySelector('.textarea')
-        const inputLabel = document.querySelector('.input-label')
-        const textareaLabel = document.querySelector('.textarea-label')
 
         //элементы выбора цвета заметки
         const colorUl = document.querySelector('.colors')
@@ -133,23 +131,9 @@ const view = {
             if (input.value.length > 50) {
                 view.showRedAlerts('Максимальная длина заголовка - 50 символов')
 
-            //если инпут и поле ввода пустые - показать красный текст в label
+            //если инпут и поле ввода пустые - показывать красное сообщение на 3 сек
             } else if ((input.value.trim() === '')||(textarea.value.trim() === '')){
-                if (input.value.trim() === '') {
-                    inputLabel.classList.add('red-notice')
-                    inputLabel.textContent = 'Заполните название заметки'
-                    setTimeout(() => {
-                        inputLabel.classList.remove('red-notice')
-                        inputLabel.textContent = 'Название заметки'
-                    }, 1000)
-                } if (textarea.value.trim() === '') {
-                    textareaLabel.classList.add('red-notice')
-                    textareaLabel.textContent = 'Заполните описание заметки'
-                    setTimeout(() => {
-                        textareaLabel.classList.remove('red-notice')
-                        textareaLabel.textContent = 'Описание новой заметки'
-                    }, 1000)
-                }
+                view.showRedAlerts('Заполните все поля!')
             }
 
             //передать данные контроллеру, стереть инпуты, показать зеленое сообщение на 3 сек
