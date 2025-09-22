@@ -45,10 +45,10 @@ const model = {
 
     addNote(title, description, color) {
         const newNote = {
-            title: title,
+            title,
             id: new Date().getTime(),
-            description: description,
-            color: color,
+            description,
+            color,
             isFavorite: false,
         }
         //добавить в начало массива
@@ -317,22 +317,26 @@ const controller = {
         //отрисовка с проверкой фильтра
         this.refreshView()
     },
+
     toggleFavorite(noteId) {
         model.toggleFavorite(noteId)
         //отрисовка с проверкой фильтра
         this.refreshView()
     },
+
     deleteNote(noteId) {
         model.deleteNote(noteId)
         //отрисовка с проверкой фильтра
         this.refreshView()
     },
+
     filterFavorites() {
         model.filterFavorites();
         //отрисовка с проверкой фильтра (чтобы при клике на чекбокс избранных заметок при отсутствии избранных заметок
         //делалась проверка, иначе экран сбрасывает все карточки и показывает дефолтное сообщение)
         this.refreshView()
     },
+
     //возвращает полученный в модели результат
     countTasks() {
         return model.countTasks()
