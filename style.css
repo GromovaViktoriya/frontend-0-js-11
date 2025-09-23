@@ -202,6 +202,10 @@ body {
     cursor: pointer;
 }
 
+.button:hover {
+    background: #3868c0;
+}
+
 .favorites-span-wrapper {
     display: none;
     flex-direction: row;
@@ -286,8 +290,17 @@ body {
     word-break: break-word;
 }
 
+.icon-heart, .icon-bucket {
+    transition: .1s ease;
+}
+
+.icon-heart:hover, .favorite:hover, .icon-bucket:hover {
+    transform: scale(1.1)
+}
+
 .favorite {
     fill: black;
+    transition: .1s ease;
 }
 
 .no-cards-message {

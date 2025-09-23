@@ -68,7 +68,3 @@ button::-moz-focus-inner {
     padding: 0;
     border: 0;
 }
-
-label {
-    cursor: pointer;
-}
