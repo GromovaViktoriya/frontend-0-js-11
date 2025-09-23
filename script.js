@@ -7,7 +7,7 @@ const MOCKData = [
         isFavorite: false
     },
     {
-        title: 'IT Incubator course',
+        title: 'IT Incubator',
         id: Math.random(),
         description: 'Дописать самостоятельный проект',
         color: 'green',
@@ -134,6 +134,18 @@ const view = {
                 //если инпут и поле ввода пустые - показывать красное сообщение на 3 сек
             } else if ((input.value.trim() === '') || (textarea.value.trim() === '')) {
                 view.showRedAlerts('Заполните все поля!')
+                //границы инпутов подкрашиваются красным цветом (в зависимости от того, какой из них не заполнен)
+                // на 1 сек
+                if (input.value.trim() === '') {
+                    input.classList.add('warning')
+                    //функция с таймером на 1сек
+                    setWarningTimeout(input)
+                }
+                if (textarea.value.trim() === '') {
+                    textarea.classList.add('warning')
+                    //функция с таймером на 1сек
+                    setWarningTimeout(textarea)
+                }
             }
 
             //передать данные контроллеру, стереть инпуты, показать зеленое сообщение на 3 сек
@@ -407,6 +419,12 @@ function animateAlertMessage(alertDiv) {
             alertDiv.remove();
         }, 400); //0,4 сек
     }, 3000);
+}
+//просто вынос таймера в функцию для подсветки инпутов красным
+function setWarningTimeout(name) {
+    setTimeout(() => {
+        name.classList.remove('warning');
+    },1000)
 }
 
 //запуск функции init после того, как загрузился контент DOM
