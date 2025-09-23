@@ -304,11 +304,13 @@ body {
 .alert-wrapper {
     display: flex;
     flex-direction: column;
+    flex-wrap: wrap;
+    align-items: flex-end;
     gap: 12px;
 
     position: fixed;
     bottom: 0;
-    right: 44px;
+    right: 64px;
 }
 
 .alert-red, .alert-green {
@@ -396,9 +398,8 @@ body {
         row-gap: 12px;
     }
 
-    .alert-green-wrapper {
-        bottom: 10px;
-        right: 10px;
+    .alert-wrapper {
+        right: 30px;
     }
 }
 
@@ -425,9 +426,8 @@ body {
         padding: 18px 15px;
     }
 
-    .alert-green-wrapper {
-        bottom: 5px;
-        right: 5px;
+    .alert-wrapper {
+        right: 15px;
     }
 }
 
