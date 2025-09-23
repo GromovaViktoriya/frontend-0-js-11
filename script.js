@@ -323,7 +323,7 @@ const controller = {
             model.addNote(title, description, color)
 
             //если прошла проверка на пустой ввод и заметка добавилась, показать зеленое сообщение с анимацией, чтобы
-            // сообщения появлялись одно над другим, на 3 сек
+            //сообщения появлялись одно над другим, на 3 сек
             view.showGreenAlerts('Заметка добавлена!')
         }
         //отрисовка с проверкой фильтра
@@ -364,7 +364,7 @@ const controller = {
             const favoritesContainer = document.querySelector('.favorites-span-wrapper')
 
             //если удалить все избранные заметки из массива избранных заметок/либо избранных заметок нет, то нужно
-            // перерисовать общий массив заметок и переключить фильтр на "выкл"
+            //перерисовать общий массив заметок и переключить фильтр на "выкл"
             if (model.filterFavorites().length === 0) {
                 model.isFilterActive = false;
                 favoritesContainer.classList.remove('filter-active');
@@ -388,7 +388,7 @@ const controller = {
         //если хотя бы одна заметка имеет isFavorite:true
         if (model.notes.some(note => note.isFavorite === true)) {
             //иконка добавления в избранные окрашивается в черный "активный" цвет, что указывает на
-            // возможность по ней кликнуть
+            //возможность по ней кликнуть
             iconCheckbox.classList.remove('grayscale')
             favoritesSpan.classList.remove('grayscale')
         } else {
