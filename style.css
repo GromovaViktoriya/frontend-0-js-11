@@ -296,6 +296,7 @@ body {
 
 .icon-heart, .icon-bucket {
     transition: .1s ease;
+    opacity: 0.75;
 }
 
 .icon-heart:hover, .favorite:hover, .icon-bucket:hover {
