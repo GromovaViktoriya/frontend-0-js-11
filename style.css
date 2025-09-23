@@ -127,6 +127,10 @@ body {
     color: #919191;
 }
 
+.input:focus, .textarea:focus{
+    outline: 1px solid #919191;
+}
+
 .textarea-wrapper {
     column-gap: 24px;
 }
