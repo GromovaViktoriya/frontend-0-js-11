@@ -5,8 +5,8 @@ const view = {
 
     //основной метод запуска view
     init() {
-        //отрисовывает моковые заметки со старта
-        // view.renderNotes(model.notes)
+
+        // view.renderNotes(model.notes)  //отрисовывает моковые заметки со старта
 
         //элементы формы
         const form = document.querySelector('.form')
