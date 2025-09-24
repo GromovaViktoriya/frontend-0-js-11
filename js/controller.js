@@ -71,7 +71,8 @@ const controller = {
         const favoritesSpan = document.querySelector('.favorites-span')
 
         //если хотя бы одна заметка имеет isFavorite:true
-        if (model.notes.some(note => note.isFavorite === true)) {
+        if (model.notes.some(note => {
+            return note.isFavorite === true })){
             //иконка добавления в избранные окрашивается в черный "активный" цвет, что указывает на
             //возможность по ней кликнуть
             iconCheckbox.classList.remove('grayscale')
