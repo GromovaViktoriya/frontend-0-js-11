@@ -1,44 +1,44 @@
-const MOCKData = [
-    {
-        title: 'Codewars',
-        id: Math.random(),
-        description: 'Решить 2-3 задачи на Codewars',
-        color: 'magenta',
-        isFavorite: false
-    },
-    {
-        title: 'IT Incubator',
-        id: Math.random(),
-        description: 'Дописать самостоятельный проект',
-        color: 'green',
-        isFavorite: false
-    },
-    {
-        title: 'Javascript course',
-        id: Math.random(),
-        description: 'Посмотреть курс Димыча на youtube по JS с нуля',
-        color: 'blue',
-        isFavorite: false
-    },
-    {
-        title: 'CSS practise',
-        id: Math.random(),
-        description: 'Сделать несколько проектов со сложной версткой на youtube',
-        color: 'yellow',
-        isFavorite: false
-    },
-    {
-        title: 'Книга по JS',
-        id: Math.random(),
-        description: 'Прочитать уже знакомые темы в книге "Javascript с нуля", чтобы их закрепить',
-        color: 'red',
-        isFavorite: false
-    }
-]
+// const MOCKData = [
+//     {
+//         title: 'Codewars',
+//         id: Math.random(),
+//         description: 'Решить 2-3 задачи на Codewars',
+//         color: 'magenta',
+//         isFavorite: false
+//     },
+//     {
+//         title: 'IT Incubator',
+//         id: Math.random(),
+//         description: 'Дописать самостоятельный проект',
+//         color: 'green',
+//         isFavorite: false
+//     },
+//     {
+//         title: 'Javascript course',
+//         id: Math.random(),
+//         description: 'Посмотреть курс Димыча на youtube по JS с нуля',
+//         color: 'blue',
+//         isFavorite: false
+//     },
+//     {
+//         title: 'CSS practise',
+//         id: Math.random(),
+//         description: 'Сделать несколько проектов со сложной версткой на youtube',
+//         color: 'yellow',
+//         isFavorite: false
+//     },
+//     {
+//         title: 'Книга по JS',
+//         id: Math.random(),
+//         description: 'Прочитать уже знакомые темы в книге "Javascript с нуля", чтобы их закрепить',
+//         color: 'red',
+//         isFavorite: false
+//     }
+// ]
 
 
 const model = {
-    notes: MOCKData,
+    notes: [],
 
     //свойство-переключатель для отслеживания работы фильтра избранных заметок
     isFilterActive: false,
@@ -91,7 +91,7 @@ const view = {
     //основной метод запуска view
     init() {
         //отрисовывает моковые заметки со старта
-        view.renderNotes(model.notes)
+        // view.renderNotes(model.notes)
 
         //элементы формы
         const form = document.querySelector('.form')
