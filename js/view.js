@@ -41,16 +41,15 @@ const view = {
         form.addEventListener('submit', (event) => {
             //отменить дефолтную перезагрузку страницы
             event.preventDefault()
+            //проверки ввода данных
+            if ((input.value.trim() === '') || (textarea.value.trim() === '') ||
+                (input.value.length > 50) || (textarea.value.length > 200)) {
 
-            //если количество символов заголовка больше 50 => показывать красное сообщение на 3 сек
-            if (input.value.length > 50) {
-                view.showRedAlerts('Максимальная длина заголовка - 50 символов')
-
-                //если инпут и поле ввода пустые - показывать красное сообщение на 3 сек
-            } else if ((input.value.trim() === '') || (textarea.value.trim() === '')) {
-                view.showRedAlerts('Заполните все поля!')
+               //если инпуты пустые => показывать красное сообщение на 3 сек
+                if((input.value.trim() === '') || (textarea.value.trim() === '')){
+                    view.showRedAlerts('Заполните все поля!')
+                }
                 //границы инпутов подкрашиваются красным цветом (в зависимости от того, какой из них не заполнен)
-                // на 1 сек
                 if (input.value.trim() === '') {
                     input.classList.add('warning')
                     //функция с таймером на 1сек
@@ -60,6 +59,14 @@ const view = {
                     textarea.classList.add('warning')
                     //функция с таймером на 1сек
                     setWarningTimeout(textarea)
+                }
+                //если количество символов заголовка больше 50 => показывать красное сообщение на 3 сек
+                if (input.value.length > 50){
+                    view.showRedAlerts('Максимальная длина заголовка - 50 символов')
+                }
+                //если количество символов в описании больше 200 => показывать красное сообщение на 3 сек
+                if(textarea.value.length > 200){
+                    view.showRedAlerts('Ограничение описания заметки - 200 символов')
                 }
             }
 
@@ -249,11 +256,12 @@ function animateAlertMessage(alertDiv) {
         }, 400); //0,4 сек
     }, 3000);
 }
+
 //просто вынос таймера в функцию для подсветки инпутов красным
 function setWarningTimeout(name) {
     setTimeout(() => {
         name.classList.remove('warning');
-    },1000)
+    }, 1000)
 }
 
 export default view;
