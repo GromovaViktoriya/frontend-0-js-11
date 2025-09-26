@@ -24,6 +24,9 @@ const view = {
         //контейнер с иконкой и надписью избранных заметок
         const favoritesContainer = document.querySelector('.favorites-span-wrapper')
 
+        //айди перетаскиваемой заметки
+        let draggedNoteId = null;
+
 
         //обработчик на список с "кнопками" выбора цвета
         colorUl.addEventListener('click', (event) => {
@@ -126,6 +129,38 @@ const view = {
                 view.renderNotes(model.notes)
             }
         })
+
+        //События для drag and drop логики
+        //начало перетаскивания заметки
+        notesContainer.addEventListener('dragstart', (event) => {
+            //айди целевой заметки для контроллера
+            draggedNoteId = +event.target.id;
+
+            //стили для перетаскивания заметки
+            event.target.classList.add('dragging');
+            event.target.style.cursor = 'grabbing';
+        })
+
+        //конец перетаскивания заметки
+        notesContainer.addEventListener('dragend', (event) => {
+            //убираем стиль для перетаскивания и курсор переноса
+            event.target.classList.remove('dragging');
+            event.target.style.cursor = 'grab';
+        });
+
+        //перетаскивание заметки над заметкой
+        notesContainer.addEventListener('dragover', (event) => {
+            //убираем запрет на перетаскивание заметки над заметкой
+            event.preventDefault();
+        });
+
+        //"сброс" заметки на новое место
+        notesContainer.addEventListener('drop', (event) => {
+            //айди целевой заметки, на место которой осуществляется перетаскивание заметки
+            const targetNoteId = +event.target.closest('.card').id;
+            //передача в контроллер айди перетаскиваемой заметки и айди заметки, на место которой осуществляется перенос
+            controller.reorderNote(draggedNoteId, targetNoteId);
+        });
     },
 
     //отрисовка заметок
@@ -148,7 +183,7 @@ const view = {
             notesContainer.innerHTML = '';
             notes.forEach(note => {
                 notesContainer.innerHTML += `
-                <div class="card" id="${note.id}">
+                <div class="card" id="${note.id}" draggable="true">
                 <div class="card-title-wrapper ${note.color}">
                     <h2 class="card-title">${note.title}</h2>
                     <div class="card-icon-wrapper">

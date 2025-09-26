@@ -83,6 +83,23 @@ const model = {
     //возвращает в контроллер цифру длины общего массива заметок для счетчика
     countTasks() {
         return this.notes.length; //отрисовка через контроллер
+    },
+
+    //меняет порядок заметок в массиве с учетом drag and drop логики
+    reorderNote(draggedId, targetId) {
+        //ищет заметку в общем массиве по айди переносимой заметки
+        const draggedNote = this.notes.find(note => note.id === draggedId);
+        //ищет индекс переносимой заметки в общем массиве
+        const draggedIndex = this.notes.findIndex(note => note.id === draggedId);
+
+        //ищет индекс заметки на месте "сброса"
+        const targetIndex = this.notes.findIndex(note => note.id === targetId);
+
+        //вырезает перетаскиваемую заметку из её старого места
+        this.notes.splice(draggedIndex, 1);
+
+        //вставляет перетаскиваемую заметку на место "сброса" заметки
+        this.notes.splice(targetIndex, 0, draggedNote);
     }
 }
 

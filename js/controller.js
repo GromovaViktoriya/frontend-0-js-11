@@ -81,6 +81,12 @@ const controller = {
             iconCheckbox.classList.add('grayscale')
             favoritesSpan.classList.add('grayscale')
         }
+    },
+
+    reorderNote(draggedId, targetId) {
+        model.reorderNote(draggedId, targetId);
+        //отрисовка с проверкой фильтра, чтобы drag and drop работал при обоих состояниях фильтра
+        this.refreshView()
     }
 }
 
