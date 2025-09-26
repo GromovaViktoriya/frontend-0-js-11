@@ -83,6 +83,23 @@ const model = {
     //возвращает в контроллер цифру длины общего массива заметок для счетчика
     countTasks() {
         return this.notes.length; //отрисовка через контроллер
+    },
+
+    //меняет порядок заметок в массиве с учетом drag and drop логики
+    reorderNote(draggedId, targetId) {
+        //ищет заметку в общем массиве по айди переносимой заметки
+        const draggedNote = this.notes.find(note => note.id === draggedId);
+        //ищет индекс переносимой заметки в общем массиве
+        const draggedIndex = this.notes.findIndex(note => note.id === draggedId);
+
+        //ищет индекс заметки на месте "сброса"
+        const targetIndex = this.notes.findIndex(note => note.id === targetId);
+
+        //вырезает перетаскиваемую заметку из её старого места
+        this.notes.splice(draggedIndex, 1);
+
+        //вставляет перетаскиваемую заметку на место "сброса" заметки
+        this.notes.splice(targetIndex, 0, draggedNote);
     }
 }
 
@@ -90,8 +107,8 @@ const view = {
 
     //основной метод запуска view
     init() {
-        //отрисовывает моковые заметки со старта
-        // view.renderNotes(model.notes)
+
+        // view.renderNotes(model.notes)  //отрисовывает моковые заметки со старта
 
         //элементы формы
         const form = document.querySelector('.form')
@@ -108,6 +125,9 @@ const view = {
         const notesContainer = document.querySelector('.cards-wrapper')
         //контейнер с иконкой и надписью избранных заметок
         const favoritesContainer = document.querySelector('.favorites-span-wrapper')
+
+        //айди перетаскиваемой заметки
+        let draggedNoteId = null;
 
 
         //обработчик на список с "кнопками" выбора цвета
@@ -211,6 +231,38 @@ const view = {
                 view.renderNotes(model.notes)
             }
         })
+
+        //События для drag and drop логики
+        //начало перетаскивания заметки
+        notesContainer.addEventListener('dragstart', (event) => {
+            //айди целевой заметки для контроллера
+            draggedNoteId = +event.target.id;
+
+            //стили для перетаскивания заметки
+            event.target.classList.add('dragging');
+            event.target.style.cursor = 'grabbing';
+        })
+
+        //конец перетаскивания заметки
+        notesContainer.addEventListener('dragend', (event) => {
+            //убираем стиль для перетаскивания и курсор переноса
+            event.target.classList.remove('dragging');
+            event.target.style.cursor = 'grab';
+        });
+
+        //перетаскивание заметки над заметкой
+        notesContainer.addEventListener('dragover', (event) => {
+            //убираем запрет на перетаскивание заметки над заметкой
+            event.preventDefault();
+        });
+
+        //"сброс" заметки на новое место
+        notesContainer.addEventListener('drop', (event) => {
+            //айди целевой заметки, на место которой осуществляется перетаскивание заметки
+            const targetNoteId = +event.target.closest('.card').id;
+            //передача в контроллер айди перетаскиваемой заметки и айди заметки, на место которой осуществляется перенос
+            controller.reorderNote(draggedNoteId, targetNoteId);
+        });
     },
 
     //отрисовка заметок
@@ -233,7 +285,7 @@ const view = {
             notesContainer.innerHTML = '';
             notes.forEach(note => {
                 notesContainer.innerHTML += `
-                <div class="card" id="${note.id}">
+                <div class="card" id="${note.id}" draggable="true">
                 <div class="card-title-wrapper ${note.color}">
                     <h2 class="card-title">${note.title}</h2>
                     <div class="card-icon-wrapper">
@@ -402,6 +454,12 @@ const controller = {
             iconCheckbox.classList.add('grayscale')
             favoritesSpan.classList.add('grayscale')
         }
+    },
+
+    reorderNote(draggedId, targetId) {
+        model.reorderNote(draggedId, targetId);
+        //отрисовка с проверкой фильтра, чтобы drag and drop работал при обоих состояниях фильтра
+        this.refreshView()
     }
 }
 
