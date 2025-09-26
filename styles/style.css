@@ -254,7 +254,6 @@ body {
 .card.dragging {
     opacity: 0.65;
     scale: 0.95;
-    cursor: grabbing;
 }
 
 .card-title-wrapper {

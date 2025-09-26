@@ -138,19 +138,17 @@ const view = {
 
             //стили для перетаскивания заметки
             event.target.classList.add('dragging');
-            event.target.style.cursor = 'grabbing';
         })
 
         //конец перетаскивания заметки
         notesContainer.addEventListener('dragend', (event) => {
-            //убираем стиль для перетаскивания и курсор переноса
+            //убирает стиль для перетаскивания
             event.target.classList.remove('dragging');
-            event.target.style.cursor = 'grab';
         });
 
         //перетаскивание заметки над заметкой
         notesContainer.addEventListener('dragover', (event) => {
-            //убираем запрет на перетаскивание заметки над заметкой
+            //убирает запрет на перетаскивание заметки над заметкой
             event.preventDefault();
         });
 

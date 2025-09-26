@@ -4,9 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9ca30650-e142-45d4-8341-beebbfcc9f91" name="Changes" comment="added logic of drag and drop to script.js">
+    <list default="true" id="9ca30650-e142-45d4-8341-beebbfcc9f91" name="Changes" comment="added comments">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/script.js" beforeDir="false" afterPath="$PROJECT_DIR$/script.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/view.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/view.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/styles/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/styles/style.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -67,7 +68,7 @@
       <updated>1758738945280</updated>
       <workItem from="1758738946346" duration="375000" />
       <workItem from="1758882731363" duration="7608000" />
-      <workItem from="1758903047533" duration="343000" />
+      <workItem from="1758903047533" duration="1822000" />
     </task>
     <task id="LOCAL-00001" summary="small change in positioning of no cards message">
       <option name="closed" value="true" />
@@ -117,7 +118,15 @@
       <option name="project" value="LOCAL" />
       <updated>1758893012265</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="added comments">
+      <option name="closed" value="true" />
+      <created>1758903530238</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1758903530238</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -130,6 +139,7 @@
     <MESSAGE value="same changes in comments" />
     <MESSAGE value="added logic of drag and drop" />
     <MESSAGE value="added logic of drag and drop to script.js" />
-    <option name="LAST_COMMIT_MESSAGE" value="added logic of drag and drop to script.js" />
+    <MESSAGE value="added comments" />
+    <option name="LAST_COMMIT_MESSAGE" value="added comments" />
   </component>
 </project>
