@@ -72,7 +72,8 @@ const controller = {
 
         //если хотя бы одна заметка имеет isFavorite:true
         if (model.notes.some(note => {
-            return note.isFavorite === true })){
+            return note.isFavorite === true
+        })) {
             //иконка добавления в избранные окрашивается в черный "активный" цвет, что указывает на
             //возможность по ней кликнуть
             iconCheckbox.classList.remove('grayscale')
@@ -84,9 +85,12 @@ const controller = {
     },
 
     reorderNote(draggedId, targetId) {
-        model.reorderNote(draggedId, targetId);
-        //отрисовка с проверкой фильтра, чтобы drag and drop работал при обоих состояниях фильтра
-        this.refreshView()
+        //проверка, чтобы drag and drop работал только при выключенном фильтре избранных заметок
+        if (!model.isFilterActive) {
+            model.reorderNote(draggedId, targetId);
+            //отрисовка заметок
+            view.renderNotes(model.notes);
+        }
     }
 }
 

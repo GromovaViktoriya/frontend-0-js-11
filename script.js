@@ -457,9 +457,12 @@ const controller = {
     },
 
     reorderNote(draggedId, targetId) {
-        model.reorderNote(draggedId, targetId);
-        //отрисовка с проверкой фильтра, чтобы drag and drop работал при обоих состояниях фильтра
-        this.refreshView()
+        //проверка, чтобы drag and drop работал только при выключенном фильтре избранных заметок
+        if (!model.isFilterActive) {
+            model.reorderNote(draggedId, targetId);
+            //отрисовка заметок
+            view.renderNotes(model.notes);
+        }
     }
 }
 
