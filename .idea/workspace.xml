@@ -4,10 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9ca30650-e142-45d4-8341-beebbfcc9f91" name="Changes" comment="added changes in html for fav card counter">
-      <change beforePath="$PROJECT_DIR$/js/controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/controller.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/model.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/model.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/view.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/view.js" afterDir="false" />
+    <list default="true" id="9ca30650-e142-45d4-8341-beebbfcc9f91" name="Changes" comment="added fav note counter">
+      <change beforePath="$PROJECT_DIR$/script.js" beforeDir="false" afterPath="$PROJECT_DIR$/script.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -69,7 +67,7 @@
       <workItem from="1758738946346" duration="375000" />
       <workItem from="1758882731363" duration="7608000" />
       <workItem from="1758903047533" duration="5056000" />
-      <workItem from="1759077045830" duration="1108000" />
+      <workItem from="1759077045830" duration="1736000" />
     </task>
     <task id="LOCAL-00001" summary="small change in positioning of no cards message">
       <option name="closed" value="true" />
@@ -151,7 +149,15 @@
       <option name="project" value="LOCAL" />
       <updated>1759077750262</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="added fav note counter">
+      <option name="closed" value="true" />
+      <created>1759078317264</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1759078317264</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -168,6 +174,7 @@
     <MESSAGE value="cursor logic deleted" />
     <MESSAGE value="added check for drag and drop logic working only when filter is off" />
     <MESSAGE value="added changes in html for fav card counter" />
-    <option name="LAST_COMMIT_MESSAGE" value="added changes in html for fav card counter" />
+    <MESSAGE value="added fav note counter" />
+    <option name="LAST_COMMIT_MESSAGE" value="added fav note counter" />
   </component>
 </project>

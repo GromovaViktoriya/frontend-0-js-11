@@ -85,6 +85,11 @@ const model = {
         return this.notes.length; //отрисовка через контроллер
     },
 
+    //возвращает в контроллер цифру длины массива избранных заметок для счетчика
+    countFavTasks() {
+        return this.filterFavorites().length
+    },
+
     //меняет порядок заметок в массиве с учетом drag and drop логики
     reorderNote(draggedId, targetId) {
         //ищет заметку в общем массиве по айди переносимой заметки
@@ -320,10 +325,12 @@ const view = {
         }
     },
 
-    //отрисовка счетчика заметок
+    //отрисовка счетчиков заметок, общего и избранных
     renderCounter() {
-        const counter = document.querySelector('.header-notes-number')
+        const counter = document.getElementById('counter')
+        const favCounter = document.getElementById('fav-counter')
         counter.textContent = controller.countTasks()
+        favCounter.textContent = controller.countFavTasks()
     },
 
     //отрисовка всплывающих alert-green сообщений с анимацией
@@ -411,6 +418,10 @@ const controller = {
     //возвращает полученный в модели результат
     countTasks() {
         return model.countTasks()
+    },
+
+    countFavTasks(){
+        return model.countFavTasks();
     },
 
     //метод для проверки состояния фильтра и отрисовки массива с учетом фильтра
