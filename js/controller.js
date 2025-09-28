@@ -39,6 +39,10 @@ const controller = {
         return model.countTasks()
     },
 
+    countFavTasks(){
+        return model.countFavTasks();
+    },
+
     //метод для проверки состояния фильтра и отрисовки массива с учетом фильтра
     refreshView() {
         //если фильтр избранных заметок включен

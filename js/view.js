@@ -216,10 +216,12 @@ const view = {
         }
     },
 
-    //отрисовка счетчика заметок
+    //отрисовка счетчиков заметок, общего и избранных
     renderCounter() {
-        const counter = document.querySelector('.header-notes-number')
+        const counter = document.getElementById('counter')
+        const favCounter = document.getElementById('fav-counter')
         counter.textContent = controller.countTasks()
+        favCounter.textContent = controller.countFavTasks()
     },
 
     //отрисовка всплывающих alert-green сообщений с анимацией

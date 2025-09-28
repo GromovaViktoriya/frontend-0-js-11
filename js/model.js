@@ -85,6 +85,11 @@ const model = {
         return this.notes.length; //отрисовка через контроллер
     },
 
+    //возвращает в контроллер цифру длины массива избранных заметок для счетчика
+    countFavTasks() {
+        return this.filterFavorites().length
+    },
+
     //меняет порядок заметок в массиве с учетом drag and drop логики
     reorderNote(draggedId, targetId) {
         //ищет заметку в общем массиве по айди переносимой заметки
