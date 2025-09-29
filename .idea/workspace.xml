@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9ca30650-e142-45d4-8341-beebbfcc9f91" name="Changes" comment="added fav note counter changes to script.js">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="9ca30650-e142-45d4-8341-beebbfcc9f91" name="Changes" comment="added const colors in script.js" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -68,7 +66,7 @@
       <workItem from="1758882731363" duration="7608000" />
       <workItem from="1758903047533" duration="5056000" />
       <workItem from="1759077045830" duration="2565000" />
-      <workItem from="1759135191497" duration="655000" />
+      <workItem from="1759135191497" duration="1064000" />
     </task>
     <task id="LOCAL-00001" summary="small change in positioning of no cards message">
       <option name="closed" value="true" />
@@ -166,7 +164,23 @@
       <option name="project" value="LOCAL" />
       <updated>1759078859225</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="added const colors in model">
+      <option name="closed" value="true" />
+      <created>1759138086263</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1759138086263</updated>
+    </task>
+    <task id="LOCAL-00014" summary="added const colors in script.js">
+      <option name="closed" value="true" />
+      <created>1759138140720</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1759138140720</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -185,6 +199,8 @@
     <MESSAGE value="added changes in html for fav card counter" />
     <MESSAGE value="added fav note counter" />
     <MESSAGE value="added fav note counter changes to script.js" />
-    <option name="LAST_COMMIT_MESSAGE" value="added fav note counter changes to script.js" />
+    <MESSAGE value="added const colors in model" />
+    <MESSAGE value="added const colors in script.js" />
+    <option name="LAST_COMMIT_MESSAGE" value="added const colors in script.js" />
   </component>
 </project>
