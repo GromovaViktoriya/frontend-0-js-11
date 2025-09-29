@@ -1,37 +1,45 @@
+// const colors = {
+//     YELLOW: 'yellow',
+//     GREEN: 'green',
+//     BLUE: 'blue',
+//     RED: 'red',
+//     MAGENTA: 'magenta'
+// }
+
 // const MOCKData = [
 //     {
 //         title: 'Codewars',
 //         id: Math.random(),
 //         description: 'Решить 2-3 задачи на Codewars',
-//         color: 'magenta',
+//         color: colors.MAGENTA,
 //         isFavorite: false
 //     },
 //     {
 //         title: 'IT Incubator',
 //         id: Math.random(),
 //         description: 'Дописать самостоятельный проект',
-//         color: 'green',
+//         color: colors.GREEN,
 //         isFavorite: false
 //     },
 //     {
 //         title: 'Javascript course',
 //         id: Math.random(),
 //         description: 'Посмотреть курс Димыча на youtube по JS с нуля',
-//         color: 'blue',
+//         color: colors.BLUE,
 //         isFavorite: false
 //     },
 //     {
 //         title: 'CSS practise',
 //         id: Math.random(),
 //         description: 'Сделать несколько проектов со сложной версткой на youtube',
-//         color: 'yellow',
+//         color: colors.YELLOW,
 //         isFavorite: false
 //     },
 //     {
 //         title: 'Книга по JS',
 //         id: Math.random(),
 //         description: 'Прочитать уже знакомые темы в книге "Javascript с нуля", чтобы их закрепить',
-//         color: 'red',
+//         color: colors.RED,
 //         isFavorite: false
 //     }
 // ]
