@@ -24,7 +24,8 @@ const view = {
         //контейнер с иконкой и надписью избранных заметок
         const favoritesContainer = document.querySelector('.favorites-span-wrapper')
 
-        //айди перетаскиваемой заметки
+        //айди перетаскиваемой заметки, объявляется заранее, чтобы можно было передать в параметр метода reorderNote
+        //на событии 'drop'
         let draggedNoteId = null;
 
 

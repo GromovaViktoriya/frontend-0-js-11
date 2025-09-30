@@ -144,7 +144,8 @@ const view = {
         //контейнер с иконкой и надписью избранных заметок
         const favoritesContainer = document.querySelector('.favorites-span-wrapper')
 
-        //айди перетаскиваемой заметки
+        //айди перетаскиваемой заметки, объявляется заранее, чтобы можно было передать в параметр метода reorderNote
+        //на событии 'drop'
         let draggedNoteId = null;
 
 
@@ -468,7 +469,9 @@ const controller = {
         const favoritesSpan = document.querySelector('.favorites-span')
 
         //если хотя бы одна заметка имеет isFavorite:true
-        if (model.notes.some(note => note.isFavorite === true)) {
+        if (model.notes.some(note => {
+            return  note.isFavorite === true
+        })) {
             //иконка добавления в избранные окрашивается в черный "активный" цвет, что указывает на
             //возможность по ней кликнуть
             iconCheckbox.classList.remove('grayscale')
