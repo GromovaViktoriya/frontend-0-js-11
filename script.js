@@ -100,18 +100,17 @@ const model = {
 
     //меняет порядок заметок в массиве с учетом drag and drop логики
     reorderNote(draggedId, targetId) {
-        //ищет заметку в общем массиве по айди переносимой заметки
-        const draggedNote = this.notes.find(note => {
-            return  note.id === draggedId
-        });
         //ищет индекс переносимой заметки в общем массиве
         const draggedIndex = this.notes.findIndex(note => {
             return note.id === draggedId
         });
-
         //ищет индекс заметки на месте "сброса"
         const targetIndex = this.notes.findIndex(note => {
             return note.id === targetId
+        });
+        //ищет заметку в общем массиве по айди переносимой заметки
+        const draggedNote = this.notes.find(note => {
+            return  note.id === draggedId
         });
 
         //вырезает перетаскиваемую заметку из её старого места по ее индексу
