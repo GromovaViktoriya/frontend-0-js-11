@@ -110,7 +110,7 @@ const model = {
         });
         //ищет заметку в общем массиве по айди переносимой заметки
         const draggedNote = this.notes.find(note => {
-            return  note.id === draggedId
+            return note.id === draggedId
         });
 
         //вырезает перетаскиваемую заметку из её старого места по ее индексу
@@ -169,7 +169,7 @@ const view = {
                 (input.value.length > 50) || (textarea.value.length > 200)) {
 
                 //если инпуты пустые => показывать красное сообщение на 3 сек
-                if((input.value.trim() === '') || (textarea.value.trim() === '')){
+                if ((input.value.trim() === '') || (textarea.value.trim() === '')) {
                     view.showRedAlerts('Заполните все поля!')
                 }
                 //границы инпутов подкрашиваются красным цветом (в зависимости от того, какой из них не заполнен)
@@ -184,11 +184,11 @@ const view = {
                     setWarningTimeout(textarea)
                 }
                 //если количество символов заголовка больше 50 => показывать красное сообщение на 3 сек
-                if (input.value.length > 50){
+                if (input.value.length > 50) {
                     view.showRedAlerts('Максимальная длина заголовка - 50 символов')
                 }
                 //если количество символов в описании больше 200 => показывать красное сообщение на 3 сек
-                if(textarea.value.length > 200){
+                if (textarea.value.length > 200) {
                     view.showRedAlerts('Ограничение описания заметки - 200 символов')
                 }
             }
@@ -397,14 +397,12 @@ const view = {
 
 const controller = {
     addNote(title, description, color) {
-        //проверка на пустой ввод и ограничение по количеству символов <=50
-        if ((title.trim() !== '') && (description.trim() !== '') && (title.length <= 50) && (description.length <= 200)) {
-            model.addNote(title, description, color)
+        model.addNote(title, description, color)
 
-            //если прошла проверка на пустой ввод и количество символов заметка добавилась, показать зеленое сообщение
-            // с анимацией, чтобы сообщения появлялись одно над другим, на 3 сек
-            view.showGreenAlerts('Заметка добавлена!')
-        }
+        //показать зеленое сообщение
+        //с анимацией, чтобы сообщения появлялись одно над другим, на 3 сек
+        view.showGreenAlerts('Заметка добавлена!')
+
         //отрисовка с проверкой фильтра
         this.refreshView()
     },
@@ -433,7 +431,7 @@ const controller = {
         return model.countTasks()
     },
 
-    countFavTasks(){
+    countFavTasks() {
         return model.countFavTasks();
     },
 
@@ -470,7 +468,7 @@ const controller = {
 
         //если хотя бы одна заметка имеет isFavorite:true
         if (model.notes.some(note => {
-            return  note.isFavorite === true
+            return note.isFavorite === true
         })) {
             //иконка добавления в избранные окрашивается в черный "активный" цвет, что указывает на
             //возможность по ней кликнуть
@@ -514,11 +512,12 @@ function animateAlertMessage(alertDiv) {
         }, 400); //0,4 сек
     }, 3000);
 }
+
 //просто вынос таймера в функцию для подсветки инпутов красным
 function setWarningTimeout(name) {
     setTimeout(() => {
         name.classList.remove('warning');
-    },1000)
+    }, 1000)
 }
 
 //запуск функции init после того, как загрузился контент DOM
