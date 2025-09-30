@@ -110,7 +110,7 @@ const model = {
         });
         //ищет заметку в общем массиве по айди переносимой заметки
         const draggedNote = this.notes.find(note => {
-            return  note.id === draggedId
+            return note.id === draggedId
         });
 
         //вырезает перетаскиваемую заметку из её старого места по ее индексу
@@ -118,6 +118,24 @@ const model = {
 
         //вставляет перетаскиваемую заметку на место "сброса" заметки, по индексу заметки на месте сброса
         this.notes.splice(targetIndex, 0, draggedNote);
+    },
+
+    changeTitle(noteId, titleText) {
+        this.notes = this.notes.map(note => {
+            if (note.id === noteId) {
+                note.title = titleText;
+            }
+            return note;
+        })
+    },
+
+    changeDescription(noteId, descriptionText) {
+        this.notes = this.notes.map(note => {
+            if (note.id === noteId) {
+                note.description = descriptionText;
+            }
+            return note;
+        })
     }
 }
 

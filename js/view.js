@@ -48,8 +48,8 @@ const view = {
             if ((input.value.trim() === '') || (textarea.value.trim() === '') ||
                 (input.value.length > 50) || (textarea.value.length > 200)) {
 
-               //если инпуты пустые => показывать красное сообщение на 3 сек
-                if((input.value.trim() === '') || (textarea.value.trim() === '')){
+                //если инпуты пустые => показывать красное сообщение на 3 сек
+                if ((input.value.trim() === '') || (textarea.value.trim() === '')) {
                     view.showRedAlerts('Заполните все поля!')
                 }
                 //границы инпутов подкрашиваются красным цветом (в зависимости от того, какой из них не заполнен)
@@ -64,11 +64,11 @@ const view = {
                     setWarningTimeout(textarea)
                 }
                 //если количество символов заголовка больше 50 => показывать красное сообщение на 3 сек
-                if (input.value.length > 50){
+                if (input.value.length > 50) {
                     view.showRedAlerts('Максимальная длина заголовка - 50 символов')
                 }
                 //если количество символов в описании больше 200 => показывать красное сообщение на 3 сек
-                if(textarea.value.length > 200){
+                if (textarea.value.length > 200) {
                     view.showRedAlerts('Ограничение описания заметки - 200 символов')
                 }
             }
@@ -95,12 +95,16 @@ const view = {
         notesContainer.addEventListener('click', (event) => {
             //находит айди ближайшей к целевому элементу заметки
             const noteId = +(event.target.closest('.card').id)
+
+            //логика добавления заметки в избранные
             if (event.target.closest('.icon-heart')) {
                 controller.toggleFavorite(noteId)
 
                 //перекрашивает иконку для добавления в избранные
                 controller.activateCheckbox()
             }
+
+            //логика удаления заметки
             if (event.target.closest('.icon-bucket')) {
                 controller.deleteNote(noteId)
 
@@ -113,6 +117,87 @@ const view = {
 
                 //обновить отрисовку счетчика заметок
                 view.renderCounter()
+            }
+
+            //логика для редактирования текста заметки
+            const titleInput = event.target.closest('.card-title')
+            const descriptionInput = event.target.closest('.card-description')
+            const elementToEdit = titleInput || descriptionInput
+            const card = event.target.closest('.card')
+
+            //объект выделения для всего окна
+            const selection = window.getSelection();
+            //создает диапазон
+            const range = document.createRange();
+
+            if (elementToEdit) {
+                //если уже в режиме редактирования, ничего не делать
+                if (elementToEdit.isContentEditable) {
+                    return;
+                }
+                //заметки нельзя перетаскивать пока идет редактирование текста
+                card.draggable = false
+
+                //через function expression
+                const saveChanges = () => {
+                    //проверки на пустой ввод и ограничение по количеству символов
+                    if (elementToEdit.textContent.trim() === '') {
+                        view.showRedAlerts('Поле не может быть пустым');
+                        //возвращает состояние фокуса(редактирования)
+                        elementToEdit.focus(); // Возвращаем фокус, не даём уйти
+                        //возвращает состояние фокуса(редактирования)
+                        return;
+                    }
+                    if (titleInput && titleInput.textContent.length > 50) {
+                        view.showRedAlerts('Максимальная длина заголовка - 50 символов')
+                        //возвращает состояние фокуса(редактирования)
+                        elementToEdit.focus(); // Возвращаем фокус
+                        //прерывает сохранение изменений
+                        return;
+                    }
+                    if (descriptionInput && (descriptionInput.textContent.length > 200)) {
+                        view.showRedAlerts('Ограничение описания заметки - 200 символов')
+                        //возвращает состояние фокуса(редактирования)
+                        elementToEdit.focus(); // Возвращаем фокус
+                        //прерывает сохранение изменений
+                        return;
+                    }
+                    //если проверки пройдены, логика сохранения редактированного текста:
+                    //заметки снова можно перетаскивать
+                    card.draggable = true;
+                    //отключает возможность редактирования инпутов
+                    elementToEdit.contentEditable = false;
+                    //убирает слушатель события на потерю фокуса (клик в любом другом месте)
+                    elementToEdit.removeEventListener('blur', saveChanges);
+                    //отправляет данные в контроллер
+                    if (titleInput) {
+                        controller.changeTitle(noteId, elementToEdit.textContent);
+                    } else {
+                        controller.changeDescription(noteId, elementToEdit.textContent);
+                    }
+                }
+                //добавляет возможность редактирования текста
+                elementToEdit.contentEditable = true;
+                //включает состояние фокуса
+                elementToEdit.focus();
+
+                //устанавливает диапазон, чтобы он включал всё содержимое элемента
+                range.selectNodeContents(elementToEdit);
+                //применяет новый диапазон
+                selection.addRange(range);
+
+                //добавляет слушатель события на потерю фокуса (клик в любом другом месте)
+                elementToEdit.addEventListener('blur', saveChanges);
+            }
+
+        })
+
+        notesContainer.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter') {
+                //прерывает дефолтный перенос строки
+                event.preventDefault()
+                //вызывает потерю фокуса, что автоматически сохранит изменения
+                event.target.blur()
             }
         })
 
@@ -183,7 +268,7 @@ const view = {
                 notesContainer.innerHTML += `
                 <div class="card" id="${note.id}" draggable="true">
                 <div class="card-title-wrapper ${note.color}">
-                    <h2 class="card-title">${note.title}</h2>
+                    <h2 class="card-title" contenteditable="false">${note.title}</h2>
                     <div class="card-icon-wrapper">
                         <svg class="icon-heart ${note.isFavorite ? 'favorite' : ''}" width="16" height="16" viewBox="0 0 16 16" fill="none"
                                  xmlns="http://www.w3.org/2000/svg">
@@ -205,7 +290,7 @@ const view = {
                             </svg>
                     </div>
                 </div>
-                <div class="card-description">${note.description}</div>
+                <div class="card-description" contenteditable="false">${note.description}</div>
             </div>`
             })
             //включить контейнер с иконкой и надписью избранных заметок

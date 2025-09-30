@@ -85,7 +85,7 @@ const controller = {
             favoritesSpan.classList.add('grayscale')
         }
     },
-
+    //меняет порядок заметок с учетом перетаскивания
     reorderNote(draggedId, targetId) {
         //проверка, чтобы drag and drop работал только при выключенном фильтре избранных заметок
         if (!model.isFilterActive) {
@@ -93,6 +93,16 @@ const controller = {
             //отрисовка заметок
             view.renderNotes(model.notes);
         }
+    },
+
+    changeTitle(noteId, titleText) {
+        model.changeTitle(noteId, titleText)
+        this.refreshView()
+    },
+
+    changeDescription(noteId, descriptionText) {
+        model.changeDescription(noteId, descriptionText)
+        this.refreshView()
     }
 }
 

@@ -273,6 +273,7 @@ body {
     color: #292515;
     white-space: normal;
     word-break: break-word;
+    cursor: pointer;
 }
 
 .card-icon-wrapper {
@@ -294,6 +295,7 @@ body {
     color: #000;
     white-space: normal;
     word-break: break-word;
+    cursor: pointer;
 }
 
 .icon-heart, .icon-bucket {
