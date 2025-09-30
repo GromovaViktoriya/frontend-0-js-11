@@ -118,6 +118,26 @@ const model = {
 
         //вставляет перетаскиваемую заметку на место "сброса" заметки, по индексу заметки на месте сброса
         this.notes.splice(targetIndex, 0, draggedNote);
+    },
+
+    //меняет текст в заголовке заметки
+    changeTitle(noteId, titleText) {
+        this.notes = this.notes.map(note => {
+            if (note.id === noteId) {
+                note.title = titleText;
+            }
+            return note;
+        })
+    },
+
+    //меняет текст в описании заметки
+    changeDescription(noteId, descriptionText) {
+        this.notes = this.notes.map(note => {
+            if (note.id === noteId) {
+                note.description = descriptionText;
+            }
+            return note;
+        })
     }
 }
 
@@ -215,12 +235,16 @@ const view = {
         notesContainer.addEventListener('click', (event) => {
             //находит айди ближайшей к целевому элементу заметки
             const noteId = +(event.target.closest('.card').id)
+
+            //логика добавления заметки в избранные
             if (event.target.closest('.icon-heart')) {
                 controller.toggleFavorite(noteId)
 
                 //перекрашивает иконку для добавления в избранные
                 controller.activateCheckbox()
             }
+
+            //логика удаления заметки
             if (event.target.closest('.icon-bucket')) {
                 controller.deleteNote(noteId)
 
@@ -233,6 +257,87 @@ const view = {
 
                 //обновить отрисовку счетчика заметок
                 view.renderCounter()
+            }
+
+            //логика для редактирования текста заметки
+            const titleInput = event.target.closest('.card-title')
+            const descriptionInput = event.target.closest('.card-description')
+            const elementToEdit = titleInput || descriptionInput
+            const card = event.target.closest('.card')
+
+            //объект выделения для всего окна
+            const selection = window.getSelection();
+            //создает диапазон
+            const range = document.createRange();
+
+            if (elementToEdit) {
+                //если уже в режиме редактирования, ничего не делать
+                if (elementToEdit.isContentEditable) {
+                    return;
+                }
+                //заметки нельзя перетаскивать пока идет редактирование текста
+                card.draggable = false
+
+                //через function expression
+                const saveChanges = () => {
+                    //проверки на пустой ввод и ограничение по количеству символов
+                    if (elementToEdit.textContent.trim() === '') {
+                        view.showRedAlerts('Поле не может быть пустым');
+                        //возвращает состояние фокуса(редактирования)
+                        elementToEdit.focus(); // Возвращаем фокус, не даём уйти
+                        //возвращает состояние фокуса(редактирования)
+                        return;
+                    }
+                    if (titleInput && titleInput.textContent.length > 50) {
+                        view.showRedAlerts('Максимальная длина заголовка - 50 символов')
+                        //возвращает состояние фокуса(редактирования)
+                        elementToEdit.focus(); // Возвращаем фокус
+                        //прерывает сохранение изменений
+                        return;
+                    }
+                    if (descriptionInput && (descriptionInput.textContent.length > 200)) {
+                        view.showRedAlerts('Ограничение описания заметки - 200 символов')
+                        //возвращает состояние фокуса(редактирования)
+                        elementToEdit.focus(); // Возвращаем фокус
+                        //прерывает сохранение изменений
+                        return;
+                    }
+                    //если проверки пройдены, логика сохранения редактированного текста:
+                    //заметки снова можно перетаскивать
+                    card.draggable = true;
+                    //отключает возможность редактирования инпутов
+                    elementToEdit.contentEditable = false;
+                    //убирает слушатель события на потерю фокуса (клик в любом другом месте)
+                    elementToEdit.removeEventListener('blur', saveChanges);
+                    //отправляет данные в контроллер
+                    if (titleInput) {
+                        controller.changeTitle(noteId, elementToEdit.textContent);
+                    } else {
+                        controller.changeDescription(noteId, elementToEdit.textContent);
+                    }
+                }
+                //добавляет возможность редактирования текста
+                elementToEdit.contentEditable = true;
+                //включает состояние фокуса
+                elementToEdit.focus();
+
+                //устанавливает диапазон, чтобы он включал всё содержимое элемента
+                range.selectNodeContents(elementToEdit);
+                //применяет новый диапазон
+                selection.addRange(range);
+
+                //добавляет слушатель события на потерю фокуса (клик в любом другом месте)
+                elementToEdit.addEventListener('blur', saveChanges);
+            }
+
+        })
+        //слушатель по нажатию клавиши enter
+        notesContainer.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter') {
+                //прерывает дефолтный перенос строки
+                event.preventDefault()
+                //вызывает потерю фокуса, что автоматически сохранит изменения
+                event.target.blur()
             }
         })
 
@@ -480,6 +585,7 @@ const controller = {
         }
     },
 
+    //меняет порядок заметок с учетом перетаскивания
     reorderNote(draggedId, targetId) {
         //проверка, чтобы drag and drop работал только при выключенном фильтре избранных заметок
         if (!model.isFilterActive) {
@@ -487,6 +593,16 @@ const controller = {
             //отрисовка заметок
             view.renderNotes(model.notes);
         }
+    },
+
+    //меняет текст в заголовке заметки
+    changeTitle(noteId, titleText) {
+        model.changeTitle(noteId, titleText)
+    },
+
+    //меняет текст в описании заметки
+    changeDescription(noteId, descriptionText) {
+        model.changeDescription(noteId, descriptionText)
     }
 }
 

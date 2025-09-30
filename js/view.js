@@ -191,7 +191,7 @@ const view = {
             }
 
         })
-
+        //слушатель по нажатию клавиши enter
         notesContainer.addEventListener('keydown', (event) => {
             if (event.key === 'Enter') {
                 //прерывает дефолтный перенос строки

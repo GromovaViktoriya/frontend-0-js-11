@@ -85,6 +85,7 @@ const controller = {
             favoritesSpan.classList.add('grayscale')
         }
     },
+
     //меняет порядок заметок с учетом перетаскивания
     reorderNote(draggedId, targetId) {
         //проверка, чтобы drag and drop работал только при выключенном фильтре избранных заметок
