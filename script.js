@@ -101,17 +101,23 @@ const model = {
     //меняет порядок заметок в массиве с учетом drag and drop логики
     reorderNote(draggedId, targetId) {
         //ищет заметку в общем массиве по айди переносимой заметки
-        const draggedNote = this.notes.find(note => note.id === draggedId);
+        const draggedNote = this.notes.find(note => {
+            return  note.id === draggedId
+        });
         //ищет индекс переносимой заметки в общем массиве
-        const draggedIndex = this.notes.findIndex(note => note.id === draggedId);
+        const draggedIndex = this.notes.findIndex(note => {
+            return note.id === draggedId
+        });
 
         //ищет индекс заметки на месте "сброса"
-        const targetIndex = this.notes.findIndex(note => note.id === targetId);
+        const targetIndex = this.notes.findIndex(note => {
+            return note.id === targetId
+        });
 
-        //вырезает перетаскиваемую заметку из её старого места в массиве по ее индексу
+        //вырезает перетаскиваемую заметку из её старого места по ее индексу
         this.notes.splice(draggedIndex, 1);
 
-        //вставляет перетаскиваемую заметку на место "сброса" заметки по ее индексу
+        //вставляет перетаскиваемую заметку на место "сброса" заметки, по индексу заметки на месте сброса
         this.notes.splice(targetIndex, 0, draggedNote);
     }
 }
@@ -151,7 +157,6 @@ const view = {
                     radio.classList.remove('selected')
                 })
                 event.target.parentElement.classList.add('selected')
-                return selectedColor
             }
         })
 

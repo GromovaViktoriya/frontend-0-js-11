@@ -36,7 +36,6 @@ const view = {
                     radio.classList.remove('selected')
                 })
                 event.target.parentElement.classList.add('selected')
-                return selectedColor
             }
         })
 
