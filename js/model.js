@@ -120,6 +120,7 @@ const model = {
         this.notes.splice(targetIndex, 0, draggedNote);
     },
 
+    //меняет текст в заголовке заметки
     changeTitle(noteId, titleText) {
         this.notes = this.notes.map(note => {
             if (note.id === noteId) {
@@ -129,6 +130,7 @@ const model = {
         })
     },
 
+    //меняет текст в описании заметки
     changeDescription(noteId, descriptionText) {
         this.notes = this.notes.map(note => {
             if (note.id === noteId) {

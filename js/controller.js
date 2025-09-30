@@ -95,14 +95,14 @@ const controller = {
         }
     },
 
+    //меняет текст в заголовке заметки
     changeTitle(noteId, titleText) {
         model.changeTitle(noteId, titleText)
-        this.refreshView()
     },
 
+    //меняет текст в описании заметки
     changeDescription(noteId, descriptionText) {
         model.changeDescription(noteId, descriptionText)
-        this.refreshView()
     }
 }
 
