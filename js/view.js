@@ -305,8 +305,8 @@ const view = {
     renderCounter() {
         const counter = document.getElementById('counter')
         const favCounter = document.getElementById('fav-counter')
-        counter.textContent = controller.countTasks()
-        favCounter.textContent = controller.countFavTasks()
+        counter.textContent = controller.countNotes()
+        favCounter.textContent = controller.countFavNotes()
     },
 
     //отрисовка всплывающих alert-green сообщений с анимацией

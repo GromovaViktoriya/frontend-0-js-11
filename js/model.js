@@ -89,12 +89,12 @@ const model = {
     },
 
     //возвращает в контроллер цифру длины общего массива заметок для счетчика
-    countTasks() {
+    countNotes() {
         return this.notes.length; //отрисовка через контроллер
     },
 
     //возвращает в контроллер цифру длины массива избранных заметок для счетчика
-    countFavTasks() {
+    countFavNotes() {
         return this.filterFavorites().length
     },
 

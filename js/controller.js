@@ -33,12 +33,12 @@ const controller = {
     },
 
     //возвращает полученный в модели результат
-    countTasks() {
-        return model.countTasks()
+    countNotes() {
+        return model.countNotes()
     },
 
-    countFavTasks() {
-        return model.countFavTasks();
+    countFavNotes() {
+        return model.countFavNotes();
     },
 
     //метод для проверки состояния фильтра и отрисовки массива с учетом фильтра

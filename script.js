@@ -89,12 +89,12 @@ const model = {
     },
 
     //возвращает в контроллер цифру длины общего массива заметок для счетчика
-    countTasks() {
+    countNotes() {
         return this.notes.length; //отрисовка через контроллер
     },
 
     //возвращает в контроллер цифру длины массива избранных заметок для счетчика
-    countFavTasks() {
+    countFavNotes() {
         return this.filterFavorites().length
     },
 
@@ -445,8 +445,8 @@ const view = {
     renderCounter() {
         const counter = document.getElementById('counter')
         const favCounter = document.getElementById('fav-counter')
-        counter.textContent = controller.countTasks()
-        favCounter.textContent = controller.countFavTasks()
+        counter.textContent = controller.countNotes()
+        favCounter.textContent = controller.countFavNotes()
     },
 
     //отрисовка всплывающих alert-green сообщений с анимацией
@@ -528,12 +528,12 @@ const controller = {
     },
 
     //возвращает полученный в модели результат
-    countTasks() {
-        return model.countTasks()
+    countNotes() {
+        return model.countNotes()
     },
 
-    countFavTasks() {
-        return model.countFavTasks();
+    countFavNotes() {
+        return model.countFavNotes();
     },
 
     //метод для проверки состояния фильтра и отрисовки массива с учетом фильтра
