@@ -275,7 +275,8 @@ const view = {
                 if (elementToEdit.isContentEditable) {
                     return;
                 }
-                //заметки нельзя перетаскивать пока идет редактирование текста
+                //заметки нельзя перетаскивать пока идет редактирование текста, чтобы не сбрасывался
+                //редактированный текст
                 card.draggable = false
 
                 //через function expression
@@ -284,28 +285,28 @@ const view = {
                     if (elementToEdit.textContent.trim() === '') {
                         view.showRedAlerts('Поле не может быть пустым');
                         //возвращает состояние фокуса(редактирования)
-                        elementToEdit.focus(); // Возвращаем фокус, не даём уйти
-                        //возвращает состояние фокуса(редактирования)
+                        elementToEdit.focus();
+                        //прерывает сохранение изменений
                         return;
                     }
                     if (titleInput && titleInput.textContent.length > 50) {
                         view.showRedAlerts('Максимальная длина заголовка - 50 символов')
                         //возвращает состояние фокуса(редактирования)
-                        elementToEdit.focus(); // Возвращаем фокус
+                        elementToEdit.focus();
                         //прерывает сохранение изменений
                         return;
                     }
                     if (descriptionInput && (descriptionInput.textContent.length > 200)) {
                         view.showRedAlerts('Ограничение описания заметки - 200 символов')
                         //возвращает состояние фокуса(редактирования)
-                        elementToEdit.focus(); // Возвращаем фокус
+                        elementToEdit.focus();
                         //прерывает сохранение изменений
                         return;
                     }
                     //если проверки пройдены, логика сохранения редактированного текста:
                     //заметки снова можно перетаскивать
                     card.draggable = true;
-                    //отключает возможность редактирования инпутов
+                    //отключает возможность редактирования текста
                     elementToEdit.contentEditable = false;
                     //убирает слушатель события на потерю фокуса (клик в любом другом месте)
                     elementToEdit.removeEventListener('blur', saveChanges);
@@ -363,14 +364,12 @@ const view = {
 
             //стили для перетаскивания заметки
             event.target.classList.add('dragging');
-            event.target.style.cursor = 'grabbing';
         })
 
         //конец перетаскивания заметки
         notesContainer.addEventListener('dragend', (event) => {
             //убираем стиль для перетаскивания и курсор переноса
             event.target.classList.remove('dragging');
-            event.target.style.cursor = 'grab';
         });
 
         //перетаскивание заметки над заметкой
