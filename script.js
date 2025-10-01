@@ -142,6 +142,13 @@ const model = {
 }
 
 const view = {
+    //контейнер для заметок
+    notesContainer: document.querySelector('.cards-wrapper'),
+    //контейнер с иконкой и надписью избранных заметок
+    favoritesContainer: document.querySelector('.favorites-span-wrapper'),
+    //контейнер для всплывающих alert сообщений
+    alertContainer: document.querySelector('.alert-container'),
+
 
     //основной метод запуска view
     init() {
@@ -159,10 +166,6 @@ const view = {
         const firstCircle = document.querySelector('.circle')
         let selectedColor = firstCircle.classList[1]
 
-        //контейнер для заметок
-        const notesContainer = document.querySelector('.cards-wrapper')
-        //контейнер с иконкой и надписью избранных заметок
-        const favoritesContainer = document.querySelector('.favorites-span-wrapper')
 
         //айди перетаскиваемой заметки, объявляется заранее, чтобы можно было передать в параметр метода reorderNote
         //на событии 'drop'
@@ -232,7 +235,7 @@ const view = {
         })
 
         //один общий слушатель на родительский элемент заметок, т.е. на контейнер, для отслеживания событий в заметках
-        notesContainer.addEventListener('click', (event) => {
+        this.notesContainer.addEventListener('click', (event) => {
             //находит айди ближайшей к целевому элементу заметки
             const noteId = +(event.target.closest('.card').id)
 
@@ -333,7 +336,7 @@ const view = {
 
         })
         //слушатель по нажатию клавиши enter
-        notesContainer.addEventListener('keydown', (event) => {
+        this.notesContainer.addEventListener('keydown', (event) => {
             if (event.key === 'Enter') {
                 //прерывает дефолтный перенос строки
                 event.preventDefault()
@@ -343,9 +346,9 @@ const view = {
         })
 
         //общий слушатель на контейнер с иконкой и надписью избранных заметок
-        favoritesContainer.addEventListener('click', (event) => {
+        this.favoritesContainer.addEventListener('click', (event) => {
             //переключатель класса, который показывает одну иконку и скрывает другую
-            favoritesContainer.classList.toggle('filter-active');
+            this.favoritesContainer.classList.toggle('filter-active');
             //свойство-переключатель меняет значение на противоположное с каждым кликом
             model.isFilterActive = !model.isFilterActive
 
@@ -358,7 +361,7 @@ const view = {
 
         //События для drag and drop логики
         //начало перетаскивания заметки
-        notesContainer.addEventListener('dragstart', (event) => {
+        this.notesContainer.addEventListener('dragstart', (event) => {
             //айди целевой заметки для контроллера
             draggedNoteId = +event.target.id;
 
@@ -367,19 +370,19 @@ const view = {
         })
 
         //конец перетаскивания заметки
-        notesContainer.addEventListener('dragend', (event) => {
-            //убираем стиль для перетаскивания и курсор переноса
+        this.notesContainer.addEventListener('dragend', (event) => {
+            //убирает стиль для перетаскивания
             event.target.classList.remove('dragging');
         });
 
         //перетаскивание заметки над заметкой
-        notesContainer.addEventListener('dragover', (event) => {
-            //убираем запрет на перетаскивание заметки над заметкой
+        this.notesContainer.addEventListener('dragover', (event) => {
+            //убирает запрет на перетаскивание заметки над заметкой
             event.preventDefault();
         });
 
         //"сброс" заметки на новое место
-        notesContainer.addEventListener('drop', (event) => {
+        this.notesContainer.addEventListener('drop', (event) => {
             //айди целевой заметки, на место которой осуществляется перетаскивание заметки
             const targetNoteId = +event.target.closest('.card').id;
             //передача в контроллер айди перетаскиваемой заметки и айди заметки, на место которой осуществляется перенос
@@ -389,27 +392,22 @@ const view = {
 
     //отрисовка заметок
     renderNotes(notes) {
-        //контейнер для заметок
-        const notesContainer = document.querySelector('.cards-wrapper')
-        //контейнер с иконкой и надписью избранных заметок
-        const favoritesContainer = document.querySelector('.favorites-span-wrapper')
-
         //если массив с заметками пуст, показывать дефолтное сообщение
         if (notes.length === 0) {
-            favoritesContainer.style.display = 'none'
-            notesContainer.innerHTML = `
+            this.favoritesContainer.style.display = 'none'
+            this.notesContainer.innerHTML = `
             <div class="no-cards-message">У вас нет еще ни одной заметки.<br> 
             Заполните поля выше и создайте свою первую заметку!
             </div>
             `
             //отрисовать каждую заметку
         } else {
-            notesContainer.innerHTML = '';
+            this.notesContainer.innerHTML = '';
             notes.forEach(note => {
-                notesContainer.innerHTML += `
+                this.notesContainer.innerHTML += `
                 <div class="card" id="${note.id}" draggable="true">
                 <div class="card-title-wrapper ${note.color}">
-                    <h2 class="card-title">${note.title}</h2>
+                    <h2 class="card-title" contenteditable="false">${note.title}</h2>
                     <div class="card-icon-wrapper">
                         <svg class="icon-heart ${note.isFavorite ? 'favorite' : ''}" width="16" height="16" viewBox="0 0 16 16" fill="none"
                                  xmlns="http://www.w3.org/2000/svg">
@@ -431,11 +429,11 @@ const view = {
                             </svg>
                     </div>
                 </div>
-                <div class="card-description">${note.description}</div>
+                <div class="card-description" contenteditable="false">${note.description}</div>
             </div>`
             })
             //включить контейнер с иконкой и надписью избранных заметок
-            favoritesContainer.style.display = 'flex'
+            this.favoritesContainer.style.display = 'flex'
 
             //обновить отрисовку счетчика заметок
             this.renderCounter()
@@ -453,7 +451,6 @@ const view = {
     //отрисовка всплывающих alert-green сообщений с анимацией
     //метод находится во View, поскольку он не работает с данными в model
     showGreenAlerts(description) {
-        const alertContainer = document.querySelector('.alert-wrapper')
         const alertGreenMessage = document.createElement('div')
         alertGreenMessage.classList.add('alert-green')
 
@@ -468,7 +465,7 @@ const view = {
                <span class="alert-green-span">${description}</span>`;
 
         //вставляет сообщение в начало "списка"
-        alertContainer.prepend(alertGreenMessage);
+        this.alertContainer.prepend(alertGreenMessage);
 
         //функция таймера манипуляции классами для анимации сообщений
         animateAlertMessage(alertGreenMessage);
@@ -476,7 +473,6 @@ const view = {
 
     //отрисовка всплывающих alert-red сообщений с анимацией
     showRedAlerts(description) {
-        const alertContainer = document.querySelector('.alert-wrapper')
         const alertRedMessage = document.createElement('div')
         alertRedMessage.classList.add('alert-red')
 
@@ -492,7 +488,7 @@ const view = {
                <span class="alert-red-span">${description}</span>`;
 
         //вставляет сообщение в начало "списка"
-        alertContainer.prepend(alertRedMessage);
+        this.alertContainer.prepend(alertRedMessage);
 
         //функция таймера манипуляции классами для анимации сообщений
         animateAlertMessage(alertRedMessage);
@@ -629,9 +625,9 @@ function animateAlertMessage(alertMessageDiv) {
 }
 
 //просто вынос таймера в функцию для подсветки инпутов красным
-function setWarningTimeout(name) {
+function setWarningTimeout(element) {
     setTimeout(() => {
-        name.classList.remove('warning');
+        element.classList.remove('warning');
     }, 1000)
 }
 
