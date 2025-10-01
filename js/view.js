@@ -35,7 +35,7 @@ const view = {
 
         //обработчик на список с "кнопками" выбора цвета
         colorUl.addEventListener('click', (event) => {
-            if (event.target.classList.closest('.circle')) {
+            if (event.target.classList.contains('circle')) {
                 selectedColor = event.target.classList[1]
                 radioButtons.forEach(radio => {
                     radio.classList.remove('selected')
