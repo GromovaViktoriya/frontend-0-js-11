@@ -359,21 +359,21 @@ const view = {
     }
 }
 
-function animateAlertMessage(alertDiv) {
+function animateAlertMessage(alertMessageDiv) {
     //таймеры манипуляции классами для анимации сообщений
     setTimeout(() => {
-        alertDiv.classList.add('visible');
+        alertMessageDiv.classList.add('visible');
     }, 10); //0,1 сек
 
     //таймер на удаление
     setTimeout(() => {
         //сначала анимация исчезновения
-        alertDiv.classList.remove('visible');
-        alertDiv.classList.add('fade-out');
+        alertMessageDiv.classList.remove('visible');
+        alertMessageDiv.classList.add('fade-out');
 
         //после того как анимация исчезновения закончится, удаляет элемент из HTML
         setTimeout(() => {
-            alertDiv.remove();
+            alertMessageDiv.remove();
         }, 400); //0,4 сек
     }, 3000);
 }
