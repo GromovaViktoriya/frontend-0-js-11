@@ -47,14 +47,12 @@ const controller = {
         if (model.isFilterActive) {
             //массив отрисованных заметок
             const favoriteNotes = model.filterFavorites();
-            //контейнер с иконкой и надписью избранных заметок
-            const favoritesContainer = document.querySelector('.favorites-span-wrapper')
 
             //если удалить все избранные заметки из массива избранных заметок/либо избранных заметок нет, то нужно
             //перерисовать общий массив заметок и переключить фильтр на "выкл"
             if (model.filterFavorites().length === 0) {
                 model.isFilterActive = false;
-                favoritesContainer.classList.remove('filter-active');
+                view.favoritesContainer.classList.remove('filter-active');
                 view.renderNotes(model.notes)
             } else {
                 //если массив избранных заметок не пуст - обновить отрисовку массива избранных карточек
