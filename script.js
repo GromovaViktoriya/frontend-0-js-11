@@ -148,7 +148,7 @@ const view = {
     //контейнер с иконкой и надписью избранных заметок
     favoritesContainer: document.querySelector('.favorites-span-wrapper'),
     //контейнер для всплывающих alert сообщений
-    alertContainer: document.querySelector('.alert-wrapper'),
+    alertsContainer: document.querySelector('.alert-wrapper'),
 
 
     //основной метод запуска view
@@ -466,7 +466,7 @@ const view = {
                <span class="alert-green-span">${description}</span>`;
 
         //вставляет сообщение в начало "списка"
-        this.alertContainer.prepend(alertGreenMessage);
+        this.alertsContainer.prepend(alertGreenMessage);
 
         //функция таймера манипуляции классами для анимации сообщений
         animateAlertMessage(alertGreenMessage);
@@ -489,7 +489,7 @@ const view = {
                <span class="alert-red-span">${description}</span>`;
 
         //вставляет сообщение в начало "списка"
-        this.alertContainer.prepend(alertRedMessage);
+        this.alertsContainer.prepend(alertRedMessage);
 
         //функция таймера манипуляции классами для анимации сообщений
         animateAlertMessage(alertRedMessage);
