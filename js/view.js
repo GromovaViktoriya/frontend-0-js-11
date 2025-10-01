@@ -2,6 +2,7 @@ import controller from './controller.js'
 import model from './model.js'
 
 const view = {
+
     //контейнер для заметок
     notesContainer: document.querySelector('.cards-wrapper'),
     //контейнер с иконкой и надписью избранных заметок

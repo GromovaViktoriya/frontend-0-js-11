@@ -142,6 +142,7 @@ const model = {
 }
 
 const view = {
+
     //контейнер для заметок
     notesContainer: document.querySelector('.cards-wrapper'),
     //контейнер с иконкой и надписью избранных заметок
