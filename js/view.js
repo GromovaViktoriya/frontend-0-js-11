@@ -8,7 +8,7 @@ const view = {
     //контейнер с иконкой и надписью избранных заметок
     favoritesContainer: document.querySelector('.favorites-span-wrapper'),
     //контейнер для всплывающих alert сообщений
-    alertContainer: document.querySelector('.alert-container'),
+    alertContainer: document.querySelector('.alert-wrapper'),
 
 
     //основной метод запуска view
@@ -209,7 +209,7 @@ const view = {
         //общий слушатель на контейнер с иконкой и надписью избранных заметок
         this.favoritesContainer.addEventListener('click', (event) => {
             //переключатель класса, который показывает одну иконку и скрывает другую
-            this.favoritesContainer.classList.toggle('filter-active');
+            view.favoritesContainer.classList.toggle('filter-active');
             //свойство-переключатель меняет значение на противоположное с каждым кликом
             model.isFilterActive = !model.isFilterActive
 

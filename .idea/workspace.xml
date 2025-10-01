@@ -4,8 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9ca30650-e142-45d4-8341-beebbfcc9f91" name="Changes" comment="small changes">
+    <list default="true" id="9ca30650-e142-45d4-8341-beebbfcc9f91" name="Changes" comment="refactoring">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/view.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/view.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -72,7 +74,8 @@
       <workItem from="1759135191497" duration="5447000" />
       <workItem from="1759218555669" duration="648000" />
       <workItem from="1759221986893" duration="18415000" />
-      <workItem from="1759298972558" duration="2420000" />
+      <workItem from="1759298972558" duration="4232000" />
+      <workItem from="1759303586372" duration="764000" />
     </task>
     <task id="LOCAL-00001" summary="small change in positioning of no cards message">
       <option name="closed" value="true" />
@@ -258,7 +261,39 @@
       <option name="project" value="LOCAL" />
       <updated>1759300301878</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="animateAlertMessage function small change">
+      <option name="closed" value="true" />
+      <created>1759302116118</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1759302116118</updated>
+    </task>
+    <task id="LOCAL-00025" summary="refactoring">
+      <option name="closed" value="true" />
+      <created>1759302881971</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1759302881971</updated>
+    </task>
+    <task id="LOCAL-00026" summary="refactoring">
+      <option name="closed" value="true" />
+      <created>1759303094907</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1759303094907</updated>
+    </task>
+    <task id="LOCAL-00027" summary="refactoring">
+      <option name="closed" value="true" />
+      <created>1759303139106</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1759303139106</updated>
+    </task>
+    <option name="localTasksCounter" value="28" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -284,6 +319,8 @@
     <MESSAGE value="added comments" />
     <MESSAGE value="added editnotes in script.js" />
     <MESSAGE value="small changes" />
-    <option name="LAST_COMMIT_MESSAGE" value="small changes" />
+    <MESSAGE value="animateAlertMessage function small change" />
+    <MESSAGE value="refactoring" />
+    <option name="LAST_COMMIT_MESSAGE" value="refactoring" />
   </component>
 </project>
